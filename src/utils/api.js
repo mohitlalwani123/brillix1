@@ -51,6 +51,16 @@ export const authAPI = {
   resetPassword: (token, password) => api.put(`/auth/reset-password/${token}`, { password })
 };
 
+// Users API calls
+export const usersAPI = {
+  getAll: (params) => api.get('/users', { params }),
+  getById: (id) => api.get(`/users/${id}`),
+  update: (id, data) => api.put(`/users/${id}`, data),
+  delete: (id) => api.delete(`/users/${id}`),
+  getProgress: (id) => api.get(`/users/${id}/progress`),
+  getAchievements: (id) => api.get(`/users/${id}/achievements`)
+};
+
 // Subjects API calls
 export const subjectsAPI = {
   getAll: (grade) => api.get(`/subjects${grade ? `?grade=${grade}` : ''}`),
@@ -78,8 +88,9 @@ export const materialsAPI = {
 export const quizzesAPI = {
   getAll: (params) => api.get('/quizzes', { params }),
   getById: (id) => api.get(`/quizzes/${id}`),
-  submit: (id, answers) => api.post(`/quizzes/${id}/submit`, { answers }),
+  submit: (id, answers, timeTaken) => api.post(`/quizzes/${id}/submit`, { answers, timeTaken }),
   getResults: (id) => api.get(`/quizzes/${id}/results`),
+  getStatistics: (id) => api.get(`/quizzes/${id}/statistics`),
   create: (data) => api.post('/quizzes', data),
   update: (id, data) => api.put(`/quizzes/${id}`, data),
   delete: (id) => api.delete(`/quizzes/${id}`)

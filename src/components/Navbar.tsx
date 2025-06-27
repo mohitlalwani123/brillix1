@@ -1,23 +1,68 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown, BookOpen, Phone } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { 
+  Menu, 
+  X, 
+  ChevronDown, 
+  BookOpen, 
+  Phone, 
+  User, 
+  LogOut, 
+  Settings,
+  BarChart3,
+  Bell
+} from 'lucide-react';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isGamesDropdownOpen, setIsGamesDropdownOpen] = useState(false);
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { isAuthenticated, user, logout } = useAuth();
 
   const navItems = [
     { name: 'HOME', path: '/' },
     { name: 'SUBJECTS', path: '/subjects' },
-    { name: 'FACULTY AND STUDY MATERIAL', path: '/study-materials' },
-    { name: 'GAMES AND QUIZ', path: '/games-quiz', hasDropdown: true },
+    { name: 'FACULTY & MATERIALS', path: '/study-materials' },
+    { name: 'GAMES & QUIZ', path: '/games-quiz', hasDropdown: true },
     { name: 'COMMUNITY', path: '/community' },
     { name: 'PARENTAL CONTROL', path: '/parental-control' },
     { name: 'CONTACT', path: '/contact' },
   ];
 
   const isActive = (path: string) => location.pathname === path;
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/');
+    setIsUserDropdownOpen(false);
+  };
+
+  const getUserInitials = (name: string) => {
+    return name
+      .split(' ')
+      .map(word => word.charAt(0))
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
+  const getRoleColor = (role: string) => {
+    switch (role) {
+      case 'admin':
+        return 'bg-red-500';
+      case 'teacher':
+        return 'bg-purple-500';
+      case 'parent':
+        return 'bg-green-500';
+      case 'student':
+        return 'bg-blue-500';
+      default:
+        return 'bg-gray-500';
+    }
+  };
 
   return (
     <>
@@ -53,7 +98,7 @@ const Navbar = () => {
             </Link>
 
             {/* Desktop menu */}
-            <div className="hidden lg:flex items-center space-x-8">
+            <div className="hidden lg:flex items-center space-x-6">
               {navItems.map((item) => (
                 <div key={item.name} className="relative">
                   {item.hasDropdown ? (
@@ -105,8 +150,119 @@ const Navbar = () => {
               ))}
             </div>
 
+            {/* Auth Section */}
+            <div className="hidden lg:flex items-center space-x-4">
+              {isAuthenticated ? (
+                <div className="flex items-center space-x-3">
+                  {/* Notifications */}
+                  <button className="relative p-2 text-gray-600 hover:text-blue-600 transition-colors">
+                    <Bell className="h-5 w-5" />
+                    <span className="absolute -top-1 -right-1 h-4 w-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                      3
+                    </span>
+                  </button>
+
+                  {/* User Dropdown */}
+                  <div className="relative">
+                    <button
+                      onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
+                      className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                    >
+                      <div className={`w-8 h-8 ${getRoleColor(user?.role || '')} rounded-full flex items-center justify-center text-white text-sm font-medium`}>
+                        {user?.name ? getUserInitials(user.name) : 'U'}
+                      </div>
+                      <div className="text-left">
+                        <div className="text-sm font-medium text-gray-900">
+                          {user?.name || 'User'}
+                        </div>
+                        <div className="text-xs text-gray-500 capitalize">
+                          {user?.role || 'Student'}
+                        </div>
+                      </div>
+                      <ChevronDown className="h-4 w-4 text-gray-500" />
+                    </button>
+
+                    {isUserDropdownOpen && (
+                      <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2">
+                        <div className="px-4 py-2 border-b border-gray-200">
+                          <div className="text-sm font-medium text-gray-900">
+                            {user?.name}
+                          </div>
+                          <div className="text-sm text-gray-500">
+                            {user?.email}
+                          </div>
+                          <div className="text-xs text-gray-400 capitalize mt-1">
+                            {user?.role} {user?.grade && `• ${user.grade}`}
+                          </div>
+                        </div>
+
+                        <Link
+                          to="/profile"
+                          className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          onClick={() => setIsUserDropdownOpen(false)}
+                        >
+                          <User className="h-4 w-4 mr-3" />
+                          Profile
+                        </Link>
+
+                        {user?.role === 'student' && (
+                          <Link
+                            to="/progress"
+                            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            onClick={() => setIsUserDropdownOpen(false)}
+                          >
+                            <BarChart3 className="h-4 w-4 mr-3" />
+                            My Progress
+                          </Link>
+                        )}
+
+                        <Link
+                          to="/settings"
+                          className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          onClick={() => setIsUserDropdownOpen(false)}
+                        >
+                          <Settings className="h-4 w-4 mr-3" />
+                          Settings
+                        </Link>
+
+                        <div className="border-t border-gray-200 my-1"></div>
+
+                        <button
+                          onClick={handleLogout}
+                          className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                        >
+                          <LogOut className="h-4 w-4 mr-3" />
+                          Sign Out
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div className="flex items-center space-x-3">
+                  <Link
+                    to="/login"
+                    className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    Get Started
+                  </Link>
+                </div>
+              )}
+            </div>
+
             {/* Mobile menu button */}
-            <div className="lg:hidden">
+            <div className="lg:hidden flex items-center space-x-2">
+              {isAuthenticated && (
+                <div className={`w-8 h-8 ${getRoleColor(user?.role || '')} rounded-full flex items-center justify-center text-white text-sm font-medium`}>
+                  {user?.name ? getUserInitials(user.name) : 'U'}
+                </div>
+              )}
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="text-gray-700 hover:text-blue-600 focus:outline-none focus:text-blue-600"
@@ -135,6 +291,55 @@ const Navbar = () => {
                   {item.name}
                 </Link>
               ))}
+
+              {/* Mobile Auth Section */}
+              <div className="border-t border-gray-200 pt-4">
+                {isAuthenticated ? (
+                  <div className="space-y-2">
+                    <div className="px-3 py-2">
+                      <div className="text-sm font-medium text-gray-900">
+                        {user?.name}
+                      </div>
+                      <div className="text-sm text-gray-500">
+                        {user?.email}
+                      </div>
+                    </div>
+                    <Link
+                      to="/profile"
+                      className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Profile
+                    </Link>
+                    <button
+                      onClick={() => {
+                        handleLogout();
+                        setIsOpen(false);
+                      }}
+                      className="block w-full text-left px-3 py-2 text-base font-medium text-red-600 hover:bg-red-50"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    <Link
+                      to="/login"
+                      className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Sign In
+                    </Link>
+                    <Link
+                      to="/register"
+                      className="block px-3 py-2 text-base font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700 mx-3"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Get Started
+                    </Link>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}

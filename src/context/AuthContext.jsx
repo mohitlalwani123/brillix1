@@ -79,9 +79,10 @@ export const AuthProvider = ({ children }) => {
             }
           });
         } catch (error) {
+          console.error('Auth check failed:', error);
           localStorage.removeItem('token');
           localStorage.removeItem('user');
-          dispatch({ type: 'AUTH_FAIL', payload: 'Session expired' });
+          dispatch({ type: 'AUTH_FAIL', payload: null });
         }
       } else {
         dispatch({ type: 'AUTH_FAIL', payload: null });
@@ -109,6 +110,7 @@ export const AuthProvider = ({ children }) => {
       
       return { success: true };
     } catch (error) {
+      console.error('Login error:', error);
       const message = error.response?.data?.message || 'Login failed';
       dispatch({ type: 'AUTH_FAIL', payload: message });
       return { success: false, error: message };
@@ -133,6 +135,7 @@ export const AuthProvider = ({ children }) => {
       
       return { success: true };
     } catch (error) {
+      console.error('Registration error:', error);
       const message = error.response?.data?.message || 'Registration failed';
       dispatch({ type: 'AUTH_FAIL', payload: message });
       return { success: false, error: message };
