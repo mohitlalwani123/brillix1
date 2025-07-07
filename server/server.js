@@ -18,6 +18,7 @@ import communityRoutes from './routes/community.js';
 import parentalRoutes from './routes/parental.js';
 import contactRoutes from './routes/contact.js';
 import progressRoutes from './routes/progress.js';
+import flashcardRoutes from './routes/flashcards.js';
 
 // Import middleware
 import { errorHandler } from './middleware/errorHandler.js';
@@ -71,6 +72,7 @@ app.use('/api/community', communityRoutes);
 app.use('/api/parental', parentalRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/progress', progressRoutes);
+app.use('/api/flashcards', flashcardRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

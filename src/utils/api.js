@@ -157,4 +157,19 @@ export const contactAPI = {
   updateStatus: (id, status) => api.put(`/contact/${id}/status`, { status })
 };
 
+// Flashcards API calls
+export const flashcardsAPI = {
+  getAll: (params) => api.get('/flashcards', { params }),
+  getById: (id) => api.get(`/flashcards/${id}`),
+  getMy: (params) => api.get('/flashcards/my/flashcards', { params }),
+  getPopular: (limit) => api.get(`/flashcards/popular?limit=${limit}`),
+  getRecent: (limit) => api.get(`/flashcards/recent?limit=${limit}`),
+  search: (params) => api.get('/flashcards/search', { params }),
+  create: (data) => api.post('/flashcards', data),
+  update: (id, data) => api.put(`/flashcards/${id}`, data),
+  delete: (id) => api.delete(`/flashcards/${id}`),
+  study: (id, difficulty) => api.post(`/flashcards/${id}/study`, { difficulty }),
+  rate: (id, rating) => api.post(`/flashcards/${id}/rate`, { rating })
+};
+
 export default api;

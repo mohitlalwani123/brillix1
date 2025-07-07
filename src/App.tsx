@@ -14,6 +14,7 @@ import GamesQuiz from './pages/GamesQuiz';
 import Community from './pages/Community';
 import ParentalControl from './pages/ParentalControl';
 import Contact from './pages/Contact';
+import Flashcards from './pages/Flashcards';
 import Footer from './components/Footer';
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
             <Route path="/subjects/:subject" element={<SubjectDetail />} />
             <Route path="/faculty" element={<Faculty />} />
             <Route path="/study-materials" element={<StudyMaterials />} />
+            <Route path="/flashcards" element={<Flashcards />} />
             <Route path="/games-quiz" element={<GamesQuiz />} />
             <Route 
               path="/community" 
