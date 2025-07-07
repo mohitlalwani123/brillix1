@@ -31,7 +31,7 @@ const Home = () => {
       name: "Sarah Johnson",
       role: "Parent",
       content:
-        "My daughter's grades have improved significantly since using Brillix. The interactive approach really works!",
+        "My daughter's grades have improved significantly since using LearnKins. The interactive approach really works!",
       rating: 5,
     },
     {
@@ -45,7 +45,7 @@ const Home = () => {
       name: "Lisa Rodriguez",
       role: "Teacher",
       content:
-        "Brillix complements our classroom teaching perfectly. Students are more engaged than ever.",
+        "LearnKins complements our classroom teaching perfectly. Students are more engaged than ever.",
       rating: 5,
     },
   ];
@@ -83,7 +83,7 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Why Choose Brillix?
+              Why Choose LearnKins?
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               We combine technology with education to create an engaging
@@ -174,7 +174,7 @@ const Home = () => {
             </h2>
             <p className="text-xl text-gray-600">
               Hear from students, parents, and teachers who love learning with
-              Brillix
+              LearnKins
             </p>
           </div>
 
@@ -214,7 +214,7 @@ const Home = () => {
             Ready to Start Your Learning Journey?
           </h2>
           <p className="text-xl mb-8 opacity-90">
-            Join thousands of students who are already excelling with Brillix
+            Join thousands of students who are already excelling with LearnKins
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

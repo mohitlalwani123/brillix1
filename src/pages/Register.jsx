@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { BookOpen, Eye, EyeOff, AlertCircle, CheckCircle } from 'lucide-react';
+import { Eye, EyeOff, AlertCircle, CheckCircle } from 'lucide-react';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -107,12 +107,15 @@ const Register = () => {
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
           <Link to="/" className="flex items-center space-x-2">
-            <BookOpen className="h-10 w-10 text-blue-600" />
-            <span className="text-3xl font-bold text-blue-600">BRILLIX</span>
+            <img 
+              src="/Screenshot 2025-07-01 135146.png" 
+              alt="LearnKins" 
+              className="h-12 w-auto"
+            />
           </Link>
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Join Brillix today
+          Join LearnKins today
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
           Start your learning journey with us

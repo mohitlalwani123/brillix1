@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { BookOpen, Eye, EyeOff, AlertCircle } from 'lucide-react';
+import { Eye, EyeOff, AlertCircle } from 'lucide-react';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -47,8 +47,11 @@ const Login = () => {
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
           <Link to="/" className="flex items-center space-x-2">
-            <BookOpen className="h-10 w-10 text-blue-600" />
-            <span className="text-3xl font-bold text-blue-600">BRILLIX</span>
+            <img 
+              src="/Screenshot 2025-07-01 135146.png" 
+              alt="LearnKins" 
+              className="h-12 w-auto"
+            />
           </Link>
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -181,7 +184,7 @@ const Login = () => {
             <div className="mt-6 grid grid-cols-2 gap-3">
               <button
                 type="button"
-                onClick={() => handleDemoLogin('student@brillix.com', 'student123')}
+                onClick={() => handleDemoLogin('student@learnkins.com', 'student123')}
                 className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors"
               >
                 <span className="text-blue-600 mr-1">👨‍🎓</span>
@@ -189,7 +192,7 @@ const Login = () => {
               </button>
               <button
                 type="button"
-                onClick={() => handleDemoLogin('parent@brillix.com', 'parent123')}
+                onClick={() => handleDemoLogin('parent@learnkins.com', 'parent123')}
                 className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors"
               >
                 <span className="text-green-600 mr-1">👨‍👩‍👧‍👦</span>
@@ -199,7 +202,7 @@ const Login = () => {
             <div className="mt-3 grid grid-cols-2 gap-3">
               <button
                 type="button"
-                onClick={() => handleDemoLogin('teacher@brillix.com', 'teacher123')}
+                onClick={() => handleDemoLogin('teacher@learnkins.com', 'teacher123')}
                 className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors"
               >
                 <span className="text-purple-600 mr-1">👨‍🏫</span>
@@ -207,7 +210,7 @@ const Login = () => {
               </button>
               <button
                 type="button"
-                onClick={() => handleDemoLogin('admin@brillix.com', 'admin123')}
+                onClick={() => handleDemoLogin('admin@learnkins.com', 'admin123')}
                 className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors"
               >
                 <span className="text-red-600 mr-1">👨‍💼</span>

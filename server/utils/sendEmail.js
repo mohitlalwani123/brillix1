@@ -14,7 +14,7 @@ export const sendEmail = async (options) => {
 
   // Define email options
   const mailOptions = {
-    from: `"Brillix Support" <${process.env.EMAIL_USER}>`,
+    from: `"LearnKins Support" <${process.env.EMAIL_USER}>`,
     to: options.email,
     subject: options.subject,
     text: options.message,

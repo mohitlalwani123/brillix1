@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Mail, Phone, MapPin, Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
+import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -47,8 +47,11 @@ const Footer = () => {
           {/* Brand Section */}
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center space-x-2 mb-4">
-              <BookOpen className="h-8 w-8 text-blue-400" />
-              <span className="text-2xl font-bold text-white">BRILLIX</span>
+              <img 
+                src="/Screenshot 2025-07-01 135146.png" 
+                alt="LearnKins" 
+                className="h-10 w-auto"
+              />
             </Link>
             <p className="text-gray-300 mb-6 leading-relaxed">
               Empowering middle school students with interactive learning experiences that make education engaging, fun, and effective.
@@ -62,7 +65,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="h-4 w-4 text-blue-400" />
-                <span className="text-gray-300">support@brillix.com</span>
+                <span className="text-gray-300">support@learnkins.com</span>
               </div>
               <div className="flex items-center space-x-3">
                 <MapPin className="h-4 w-4 text-blue-400" />
@@ -168,7 +171,7 @@ const Footer = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-gray-300 text-sm">
-              © {currentYear} Brillix. All rights reserved. Made with ❤️ for students.
+              © {currentYear} LearnKins. All rights reserved. Made with ❤️ for students.
             </div>
             
             {/* Social Links */}

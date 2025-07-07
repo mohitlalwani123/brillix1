@@ -5,7 +5,6 @@ import {
   Menu, 
   X, 
   ChevronDown, 
-  BookOpen, 
   Phone, 
   User, 
   LogOut, 
@@ -82,7 +81,7 @@ const Navbar = () => {
               <Phone size={16} />
               <span>+91-7878888924</span>
             </div>
-            <span>www.brillix.com</span>
+            <span>www.learnkins.com</span>
           </div>
         </div>
       </div>
@@ -93,8 +92,11 @@ const Navbar = () => {
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <Link to="/" className="flex items-center space-x-2">
-              <BookOpen className="h-8 w-8 text-blue-600" />
-              <span className="text-2xl font-bold text-blue-600">BRILLIX</span>
+              <img 
+                src="/Screenshot 2025-07-01 135146.png" 
+                alt="LearnKins" 
+                className="h-10 w-auto"
+              />
             </Link>
 
             {/* Desktop menu */}

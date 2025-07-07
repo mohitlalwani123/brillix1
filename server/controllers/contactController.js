@@ -27,7 +27,7 @@ export const submitContactForm = async (req, res) => {
     // Send email notification to admin
     try {
       await sendEmail({
-        email: process.env.ADMIN_EMAIL || 'admin@brillix.com',
+        email: process.env.ADMIN_EMAIL || 'admin@learnkins.com',
         subject: `New Contact Form Submission: ${subject}`,
         message: `
           New contact form submission received:
@@ -49,7 +49,7 @@ export const submitContactForm = async (req, res) => {
     try {
       await sendEmail({
         email,
-        subject: 'Thank you for contacting Brillix',
+        subject: 'Thank you for contacting LearnKins',
         message: `
           Dear ${name},
           
@@ -60,7 +60,7 @@ export const submitContactForm = async (req, res) => {
           ${message}
           
           Best regards,
-          Brillix Support Team
+          LearnKins Support Team
         `
       });
     } catch (emailError) {

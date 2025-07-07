@@ -1,7 +1,7 @@
 {
-  "name": "brillix-backend",
+  "name": "learnkins-backend",
   "version": "1.0.0",
-  "description": "Backend API for Brillix Educational Platform",
+  "description": "Backend API for LearnKins Educational Platform",
   "main": "server.js",
   "type": "module",
   "scripts": {

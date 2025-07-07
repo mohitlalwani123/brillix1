@@ -7,7 +7,7 @@ import { Achievement } from '../models/Community.js';
 dotenv.config();
 
 // Connect to database
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/brillix');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/learnkins');
 
 const seedData = async () => {
   try {
@@ -21,7 +21,7 @@ const seedData = async () => {
     // Create admin user
     const admin = await User.create({
       name: 'Admin User',
-      email: 'admin@brillix.com',
+      email: 'admin@learnkins.com',
       password: 'admin123',
       role: 'admin'
     });
@@ -29,7 +29,7 @@ const seedData = async () => {
     // Create teacher
     const teacher = await User.create({
       name: 'Dr. Rajesh Kumar',
-      email: 'teacher@brillix.com',
+      email: 'teacher@learnkins.com',
       password: 'teacher123',
       role: 'teacher'
     });
@@ -37,7 +37,7 @@ const seedData = async () => {
     // Create parent
     const parent = await User.create({
       name: 'Parent User',
-      email: 'parent@brillix.com',
+      email: 'parent@learnkins.com',
       password: 'parent123',
       role: 'parent'
     });
@@ -45,7 +45,7 @@ const seedData = async () => {
     // Create student
     const student = await User.create({
       name: 'Alex Johnson',
-      email: 'student@brillix.com',
+      email: 'student@learnkins.com',
       password: 'student123',
       role: 'student',
       grade: '8th',
@@ -189,10 +189,10 @@ const seedData = async () => {
     await Achievement.insertMany(achievements);
 
     console.log('Database seeded successfully!');
-    console.log('Admin credentials: admin@brillix.com / admin123');
-    console.log('Teacher credentials: teacher@brillix.com / teacher123');
-    console.log('Parent credentials: parent@brillix.com / parent123');
-    console.log('Student credentials: student@brillix.com / student123');
+    console.log('Admin credentials: admin@learnkins.com / admin123');
+    console.log('Teacher credentials: teacher@learnkins.com / teacher123');
+    console.log('Parent credentials: parent@learnkins.com / parent123');
+    console.log('Student credentials: student@learnkins.com / student123');
 
     process.exit(0);
   } catch (error) {
