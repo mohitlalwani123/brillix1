@@ -60,15 +60,15 @@ const Footer = () => {
             {/* Contact Info */}
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
-                <Phone className="h-4 w-4 text-blue-400" />
+                <Phone className="h-4 w-4 text-learnkins-blue-400" />
                 <span className="text-gray-300">+91-7878888924</span>
               </div>
               <div className="flex items-center space-x-3">
-                <Mail className="h-4 w-4 text-blue-400" />
+                <Mail className="h-4 w-4 text-learnkins-blue-400" />
                 <span className="text-gray-300">support@learnkins.com</span>
               </div>
               <div className="flex items-center space-x-3">
-                <MapPin className="h-4 w-4 text-blue-400" />
+                <MapPin className="h-4 w-4 text-learnkins-blue-400" />
                 <span className="text-gray-300">New Delhi, India</span>
               </div>
             </div>
@@ -82,7 +82,7 @@ const Footer = () => {
                 <li key={index}>
                   <Link
                     to={link.path}
-                    className="text-gray-300 hover:text-blue-400 transition-colors duration-200"
+                    className="text-gray-300 hover:text-learnkins-blue-400 transition-colors duration-200"
                   >
                     {link.name}
                   </Link>
@@ -99,7 +99,7 @@ const Footer = () => {
                 <li key={index}>
                   <Link
                     to={link.path}
-                    className="text-gray-300 hover:text-blue-400 transition-colors duration-200"
+                    className="text-gray-300 hover:text-learnkins-blue-400 transition-colors duration-200"
                   >
                     {link.name}
                   </Link>
@@ -116,7 +116,7 @@ const Footer = () => {
                 <li key={index}>
                   <Link
                     to={link.path}
-                    className="text-gray-300 hover:text-blue-400 transition-colors duration-200"
+                    className="text-gray-300 hover:text-learnkins-blue-400 transition-colors duration-200"
                   >
                     {link.name}
                   </Link>
@@ -133,7 +133,7 @@ const Footer = () => {
                 <li key={index}>
                   <Link
                     to={link.path}
-                    className="text-gray-300 hover:text-blue-400 transition-colors duration-200"
+                    className="text-gray-300 hover:text-learnkins-blue-400 transition-colors duration-200"
                   >
                     {link.name}
                   </Link>
@@ -156,9 +156,9 @@ const Footer = () => {
               <input
                 type="email"
                 placeholder="Enter your email address"
-                className="flex-1 px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="flex-1 px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-learnkins-blue-500 focus:border-transparent"
               />
-              <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300 font-medium whitespace-nowrap">
+              <button className="px-6 py-3 bg-learnkins-gradient text-white rounded-lg hover:opacity-90 transition-opacity font-medium whitespace-nowrap">
                 Subscribe
               </button>
             </div>
@@ -181,7 +181,7 @@ const Footer = () => {
                 <a
                   key={index}
                   href={social.href}
-                  className="text-gray-400 hover:text-blue-400 transition-colors duration-200"
+                  className="text-gray-400 hover:text-learnkins-blue-400 transition-colors duration-200"
                   aria-label={social.name}
                 >
                   {social.icon}

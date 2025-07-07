@@ -53,14 +53,14 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 text-white overflow-hidden">
+      <section className="relative bg-gradient-to-br from-slate-900 via-learnkins-blue-900 to-slate-800 text-white overflow-hidden">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http://www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.1%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
             Game on!! Education
             <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-400">
+            <span className="text-transparent bg-clip-text bg-learnkins-gradient">
               meets adventure
             </span>
           </h1>
@@ -70,7 +70,7 @@ const Home = () => {
           </p>
           <Link
             to="/subjects"
-            className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-orange-400 to-orange-500 text-white font-semibold rounded-lg text-lg hover:from-orange-500 hover:to-orange-600 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+            className="inline-flex items-center px-8 py-4 bg-learnkins-gradient text-white font-semibold rounded-lg text-lg hover:opacity-90 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
           >
             ENROLL NOW
             <ArrowRight className="ml-2 h-5 w-5" />
@@ -97,7 +97,7 @@ const Home = () => {
                 key={index}
                 className="bg-white p-6 rounded-xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group"
               >
-                <div className="text-blue-600 mb-4 group-hover:scale-110 transition-transform duration-300">
+                <div className="text-learnkins-blue-600 mb-4 group-hover:scale-110 transition-transform duration-300">
                   {feature.icon}
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">
@@ -111,7 +111,7 @@ const Home = () => {
       </section>
 
       {/* Subjects Preview */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-learnkins-subtle">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
@@ -126,22 +126,22 @@ const Home = () => {
             {[
               {
                 name: "Science",
-                color: "from-purple-400 to-purple-600",
+                color: "from-learnkins-purple-400 to-learnkins-purple-600",
                 icon: "🔬",
               },
               {
                 name: "Mathematics",
-                color: "from-blue-400 to-blue-600",
+                color: "from-learnkins-blue-400 to-learnkins-blue-600",
                 icon: "📊",
               },
               {
                 name: "Social Science",
-                color: "from-green-400 to-green-600",
+                color: "from-learnkins-green-400 to-learnkins-green-600",
                 icon: "🌍",
               },
               {
                 name: "English",
-                color: "from-orange-400 to-orange-600",
+                color: "from-learnkins-orange-400 to-learnkins-orange-600",
                 icon: "📚",
               },
             ].map((subject, index) => (
@@ -188,7 +188,7 @@ const Home = () => {
                   {[...Array(testimonial.rating)].map((_, i) => (
                     <Star
                       key={i}
-                      className="h-5 w-5 text-yellow-400 fill-current"
+                      className="h-5 w-5 text-learnkins-orange-400 fill-current"
                     />
                   ))}
                 </div>
@@ -208,7 +208,7 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-teal-600 text-white">
+      <section className="py-20 bg-learnkins-gradient text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold mb-4">
             Ready to Start Your Learning Journey?
@@ -219,14 +219,14 @@ const Home = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/subjects"
-              className="inline-flex items-center px-8 py-4 bg-white text-blue-600 font-semibold rounded-lg text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-lg"
+              className="inline-flex items-center px-8 py-4 bg-white text-learnkins-blue-600 font-semibold rounded-lg text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-lg"
             >
               Start Learning
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
             <Link
               to="/contact"
-              className="inline-flex items-center px-8 py-4 border-2 border-white text-white font-semibold rounded-lg text-lg hover:bg-white hover:text-blue-600 transform hover:scale-105 transition-all duration-300"
+              className="inline-flex items-center px-8 py-4 border-2 border-white text-white font-semibold rounded-lg text-lg hover:bg-white hover:text-learnkins-blue-600 transform hover:scale-105 transition-all duration-300"
             >
               Contact Us
             </Link>

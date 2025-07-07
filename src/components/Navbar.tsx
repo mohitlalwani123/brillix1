@@ -51,13 +51,13 @@ const Navbar = () => {
   const getRoleColor = (role: string) => {
     switch (role) {
       case 'admin':
-        return 'bg-red-500';
+        return 'bg-learnkins-orange-500';
       case 'teacher':
-        return 'bg-purple-500';
+        return 'bg-learnkins-purple-500';
       case 'parent':
-        return 'bg-green-500';
+        return 'bg-learnkins-green-500';
       case 'student':
-        return 'bg-blue-500';
+        return 'bg-learnkins-blue-500';
       default:
         return 'bg-gray-500';
     }
@@ -71,9 +71,9 @@ const Navbar = () => {
           <div className="flex space-x-4">
             <span>Follow us on:</span>
             <div className="flex space-x-2">
-              <a href="#" className="hover:text-blue-400 transition-colors">Facebook</a>
-              <a href="#" className="hover:text-blue-400 transition-colors">Twitter</a>
-              <a href="#" className="hover:text-blue-400 transition-colors">Instagram</a>
+              <a href="#" className="hover:text-learnkins-blue-400 transition-colors">Facebook</a>
+              <a href="#" className="hover:text-learnkins-blue-400 transition-colors">Twitter</a>
+              <a href="#" className="hover:text-learnkins-blue-400 transition-colors">Instagram</a>
             </div>
           </div>
           <div className="flex items-center space-x-6">
@@ -112,8 +112,8 @@ const Navbar = () => {
                       <button
                         className={`flex items-center space-x-1 px-3 py-2 text-sm font-medium transition-colors ${
                           isActive(item.path)
-                            ? 'text-blue-600 border-b-2 border-blue-600'
-                            : 'text-gray-700 hover:text-blue-600'
+                            ? 'text-learnkins-blue-600 border-b-2 border-learnkins-blue-600'
+                            : 'text-gray-700 hover:text-learnkins-blue-600'
                         }`}
                       >
                         <span>{item.name}</span>
@@ -123,13 +123,13 @@ const Navbar = () => {
                         <div className="absolute top-full left-0 mt-1 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2">
                           <Link
                             to="/games-quiz"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-learnkins-blue-50 hover:text-learnkins-blue-600"
                           >
                             Interactive Games
                           </Link>
                           <Link
                             to="/games-quiz"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-learnkins-blue-50 hover:text-learnkins-blue-600"
                           >
                             Subject Quizzes
                           </Link>
@@ -141,8 +141,8 @@ const Navbar = () => {
                       to={item.path}
                       className={`px-3 py-2 text-sm font-medium transition-colors ${
                         isActive(item.path)
-                          ? 'text-blue-600 border-b-2 border-blue-600'
-                          : 'text-gray-700 hover:text-blue-600'
+                          ? 'text-learnkins-blue-600 border-b-2 border-learnkins-blue-600'
+                          : 'text-gray-700 hover:text-learnkins-blue-600'
                       }`}
                     >
                       {item.name}
@@ -157,9 +157,9 @@ const Navbar = () => {
               {isAuthenticated ? (
                 <div className="flex items-center space-x-3">
                   {/* Notifications */}
-                  <button className="relative p-2 text-gray-600 hover:text-blue-600 transition-colors">
+                  <button className="relative p-2 text-gray-600 hover:text-learnkins-blue-600 transition-colors">
                     <Bell className="h-5 w-5" />
-                    <span className="absolute -top-1 -right-1 h-4 w-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                    <span className="absolute -top-1 -right-1 h-4 w-4 bg-learnkins-orange-500 text-white text-xs rounded-full flex items-center justify-center">
                       3
                     </span>
                   </button>
@@ -244,13 +244,13 @@ const Navbar = () => {
                 <div className="flex items-center space-x-3">
                   <Link
                     to="/login"
-                    className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors"
+                    className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-learnkins-blue-600 transition-colors"
                   >
                     Sign In
                   </Link>
                   <Link
                     to="/register"
-                    className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                    className="px-4 py-2 bg-learnkins-gradient text-white text-sm font-medium rounded-lg hover:opacity-90 transition-opacity"
                   >
                     Get Started
                   </Link>
@@ -267,7 +267,7 @@ const Navbar = () => {
               )}
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="text-gray-700 hover:text-blue-600 focus:outline-none focus:text-blue-600"
+                className="text-gray-700 hover:text-learnkins-blue-600 focus:outline-none focus:text-learnkins-blue-600"
               >
                 {isOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
@@ -285,8 +285,8 @@ const Navbar = () => {
                   to={item.path}
                   className={`block px-3 py-2 text-base font-medium transition-colors ${
                     isActive(item.path)
-                      ? 'text-blue-600 bg-blue-50'
-                      : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+                      ? 'text-learnkins-blue-600 bg-learnkins-blue-50'
+                      : 'text-gray-700 hover:text-learnkins-blue-600 hover:bg-learnkins-blue-50'
                   }`}
                   onClick={() => setIsOpen(false)}
                 >
@@ -308,7 +308,7 @@ const Navbar = () => {
                     </div>
                     <Link
                       to="/profile"
-                      className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                      className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-learnkins-blue-600 hover:bg-learnkins-blue-50"
                       onClick={() => setIsOpen(false)}
                     >
                       Profile
@@ -327,14 +327,14 @@ const Navbar = () => {
                   <div className="space-y-2">
                     <Link
                       to="/login"
-                      className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                      className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-learnkins-blue-600 hover:bg-learnkins-blue-50"
                       onClick={() => setIsOpen(false)}
                     >
                       Sign In
                     </Link>
                     <Link
                       to="/register"
-                      className="block px-3 py-2 text-base font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700 mx-3"
+                      className="block px-3 py-2 text-base font-medium bg-learnkins-gradient text-white rounded-lg hover:opacity-90 mx-3"
                       onClick={() => setIsOpen(false)}
                     >
                       Get Started
