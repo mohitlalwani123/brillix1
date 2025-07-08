@@ -35,7 +35,7 @@ const GamesQuiz = () => {
       duration: "15-20 min",
       image:
         "https://images.pexels.com/photos/2280549/pexels-photo-2280549.jpeg?auto=compress&cs=tinysrgb&w=400",
-      color: "from-purple-500 to-indigo-600",
+      color: "from-learnkins-purple-500 to-learnkins-purple-600",
     },
     {
       id: 2,
@@ -49,7 +49,7 @@ const GamesQuiz = () => {
       duration: "20-25 min",
       image:
         "https://images.pexels.com/photos/3729557/pexels-photo-3729557.jpeg?auto=compress&cs=tinysrgb&w=400",
-      color: "from-blue-500 to-cyan-600",
+      color: "from-learnkins-blue-500 to-learnkins-blue-600",
     },
     {
       id: 3,
@@ -63,7 +63,7 @@ const GamesQuiz = () => {
       duration: "25-30 min",
       image:
         "https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=400",
-      color: "from-green-500 to-teal-600",
+      color: "from-learnkins-green-500 to-learnkins-green-600",
     },
     {
       id: 4,
@@ -77,7 +77,7 @@ const GamesQuiz = () => {
       duration: "10-15 min",
       image:
         "https://images.pexels.com/photos/261662/pexels-photo-261662.jpeg?auto=compress&cs=tinysrgb&w=400",
-      color: "from-orange-500 to-red-600",
+      color: "from-learnkins-orange-500 to-learnkins-orange-600",
     },
     {
       id: 5,
@@ -91,7 +91,7 @@ const GamesQuiz = () => {
       duration: "15-20 min",
       image:
         "https://images.pexels.com/photos/2280571/pexels-photo-2280571.jpeg?auto=compress&cs=tinysrgb&w=400",
-      color: "from-purple-500 to-indigo-600",
+      color: "from-learnkins-purple-500 to-learnkins-purple-600",
     },
     {
       id: 6,
@@ -105,7 +105,7 @@ const GamesQuiz = () => {
       duration: "20-25 min",
       image:
         "https://images.pexels.com/photos/1066895/pexels-photo-1066895.jpeg?auto=compress&cs=tinysrgb&w=400",
-      color: "from-green-500 to-teal-600",
+      color: "from-learnkins-green-500 to-learnkins-green-600",
     },
   ];
 
@@ -152,11 +152,11 @@ const GamesQuiz = () => {
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
       case "Easy":
-        return "bg-green-100 text-green-800";
+        return "bg-learnkins-green-100 text-learnkins-green-800";
       case "Medium":
-        return "bg-yellow-100 text-yellow-800";
+        return "bg-learnkins-orange-100 text-learnkins-orange-800";
       case "Hard":
-        return "bg-red-100 text-red-800";
+        return "bg-learnkins-purple-100 text-learnkins-purple-800";
       default:
         return "bg-gray-100 text-gray-800";
     }
@@ -165,7 +165,7 @@ const GamesQuiz = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header Section */}
-      <section className="relative bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 text-white py-20">
+      <section className="relative bg-gradient-to-br from-slate-900 via-learnkins-blue-900 to-slate-800 text-white py-20">
         <div
           className="absolute inset-0 opacity-20"
           style={{
@@ -175,7 +175,7 @@ const GamesQuiz = () => {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="flex items-center justify-center space-x-2 text-lg mb-6">
-            <Link to="/" className="hover:text-blue-400 transition-colors">
+            <Link to="/" className="hover:text-learnkins-blue-400 transition-colors">
               Home
             </Link>
             <ArrowRight className="h-5 w-5" />
@@ -198,28 +198,32 @@ const GamesQuiz = () => {
                 icon: <Brain className="h-8 w-8" />,
                 title: "Brain Training",
                 description: "Enhance cognitive skills",
+                color: "text-learnkins-purple-600",
               },
               {
                 icon: <Target className="h-8 w-8" />,
                 title: "Goal Oriented",
                 description: "Achievement-based learning",
+                color: "text-learnkins-blue-600",
               },
               {
                 icon: <Trophy className="h-8 w-8" />,
                 title: "Competitive",
                 description: "Leaderboards & rewards",
+                color: "text-learnkins-orange-600",
               },
               {
                 icon: <Users className="h-8 w-8" />,
                 title: "Multiplayer",
                 description: "Learn with friends",
+                color: "text-learnkins-green-600",
               },
             ].map((feature, index) => (
               <div
                 key={index}
                 className="text-center p-6 bg-gray-50 rounded-xl hover:shadow-md transition-shadow duration-300"
               >
-                <div className="text-blue-600 mb-4 flex justify-center">
+                <div className={`${feature.color} mb-4 flex justify-center`}>
                   {feature.icon}
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">
@@ -242,8 +246,8 @@ const GamesQuiz = () => {
                 onClick={() => setSelectedCategory(category.id)}
                 className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
                   selectedCategory === category.id
-                    ? "bg-blue-600 text-white shadow-lg"
-                    : "bg-white text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+                    ? "bg-learnkins-blue-600 text-white shadow-lg"
+                    : "bg-white text-gray-700 hover:bg-learnkins-blue-50 hover:text-learnkins-blue-600"
                 }`}
               >
                 {category.name}
@@ -288,7 +292,7 @@ const GamesQuiz = () => {
                   </div>
                   <div className="absolute top-4 right-4 bg-white bg-opacity-90 px-2 py-1 rounded-lg">
                     <div className="flex items-center space-x-1">
-                      <Star className="h-4 w-4 text-yellow-400 fill-current" />
+                      <Star className="h-4 w-4 text-learnkins-orange-400 fill-current" />
                       <span className="text-sm font-medium">{game.rating}</span>
                     </div>
                   </div>
@@ -313,7 +317,7 @@ const GamesQuiz = () => {
                     </div>
                   </div>
 
-                  <button className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-300 flex items-center justify-center space-x-2 font-semibold">
+                  <button className="w-full bg-learnkins-blue-600 text-white py-3 px-4 rounded-lg hover:bg-learnkins-blue-700 transition-colors duration-300 flex items-center justify-center space-x-2 font-semibold">
                     <Play className="h-5 w-5" />
                     <span>Play Now</span>
                   </button>
@@ -343,7 +347,7 @@ const GamesQuiz = () => {
                 className="bg-gray-50 rounded-xl p-6 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
               >
                 <div className="text-center mb-4">
-                  <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <div className="w-16 h-16 bg-learnkins-blue-600 rounded-full flex items-center justify-center mx-auto mb-3">
                     <Trophy className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="text-lg font-semibold text-gray-900">
@@ -376,7 +380,7 @@ const GamesQuiz = () => {
                   </div>
                 </div>
 
-                <button className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-300 font-medium">
+                <button className="w-full bg-learnkins-blue-600 text-white py-2 px-4 rounded-lg hover:bg-learnkins-blue-700 transition-colors duration-300 font-medium">
                   Start Quiz
                 </button>
               </div>
@@ -386,7 +390,7 @@ const GamesQuiz = () => {
       </section>
 
       {/* Leaderboard Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-teal-600 text-white">
+      <section className="py-20 bg-learnkins-gradient text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4">
@@ -409,7 +413,7 @@ const GamesQuiz = () => {
               >
                 <div className="text-4xl mb-3">{player.badge}</div>
                 <h3 className="text-xl font-bold mb-2">{player.name}</h3>
-                <div className="text-2xl font-bold text-yellow-300">
+                <div className="text-2xl font-bold text-learnkins-orange-300">
                   {player.score} pts
                 </div>
                 <div className="text-sm opacity-75">Rank #{player.rank}</div>
@@ -420,7 +424,7 @@ const GamesQuiz = () => {
           <div className="text-center mt-12">
             <Link
               to="/community"
-              className="inline-flex items-center px-8 py-4 bg-white text-blue-600 font-semibold rounded-lg text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-lg"
+              className="inline-flex items-center px-8 py-4 bg-white text-learnkins-blue-600 font-semibold rounded-lg text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-lg"
             >
               View Full Leaderboard
               <ArrowRight className="ml-2 h-5 w-5" />

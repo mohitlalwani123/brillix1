@@ -15,6 +15,27 @@ import {
   Search,
   Filter,
   Star,
+  Clock,
+  Shuffle,
+  Users,
+  Timer,
+  Zap,
+  CheckCircle,
+  XCircle,
+  AlertCircle,
+  ThumbsUp,
+  ThumbsDown,
+  SkipForward,
+  Play,
+  Pause,
+  Volume2,
+  Settings,
+  Lightbulb,
+  TrendingUp,
+  Award,
+  Flame,
+  Heart,
+  RefreshCw,
 } from "lucide-react";
 
 interface Flashcard {
@@ -29,6 +50,17 @@ interface Flashcard {
   createdAt: string;
   studyCount: number;
   rating: number;
+  image?: string;
+  explanation?: string;
+  confidence?: 'easy' | 'medium' | 'hard';
+}
+
+interface StudySession {
+  totalCards: number;
+  currentIndex: number;
+  correctAnswers: number;
+  timeSpent: number;
+  startTime: Date;
 }
 
 const Flashcards = () => {
@@ -41,6 +73,16 @@ const Flashcards = () => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
   const [studyMode, setStudyMode] = useState(false);
+  const [studyModeType, setStudyModeType] = useState<'flip' | 'swipe' | 'typing' | 'timed' | 'confidence'>('flip');
+  const [studySession, setStudySession] = useState<StudySession | null>(null);
+  const [userAnswer, setUserAnswer] = useState("");
+  const [timeLeft, setTimeLeft] = useState(30);
+  const [isTimerActive, setIsTimerActive] = useState(false);
+  const [theme, setTheme] = useState('light');
+  const [shuffleMode, setShuffleMode] = useState(false);
+  const [confidenceLevel, setConfidenceLevel] = useState<'easy' | 'medium' | 'hard' | null>(null);
+  const [showExplanation, setShowExplanation] = useState(false);
+  const [streak, setStreak] = useState(0);
   const [newCard, setNewCard] = useState({
     question: "",
     answer: "",
@@ -48,14 +90,17 @@ const Flashcards = () => {
     difficulty: "Medium" as const,
     tags: "",
     isPublic: true,
+    image: "",
+    explanation: "",
   });
 
-  // Demo flashcards
+  // Demo flashcards with enhanced data
   const demoFlashcards: Flashcard[] = [
     {
       id: "1",
       question: "What is photosynthesis?",
       answer: "Photosynthesis is the process by which plants use sunlight, water, and carbon dioxide to produce glucose and oxygen.",
+      explanation: "This process occurs in the chloroplasts of plant cells and is essential for life on Earth as it produces oxygen and forms the base of most food chains.",
       subject: "science",
       difficulty: "Medium",
       tags: ["biology", "plants", "energy"],
@@ -64,11 +109,13 @@ const Flashcards = () => {
       createdAt: "2024-01-15",
       studyCount: 245,
       rating: 4.8,
+      image: "https://images.pexels.com/photos/1072179/pexels-photo-1072179.jpeg?auto=compress&cs=tinysrgb&w=400",
     },
     {
       id: "2",
       question: "What is the quadratic formula?",
       answer: "x = (-b ± √(b² - 4ac)) / 2a, where a, b, and c are coefficients of the quadratic equation ax² + bx + c = 0.",
+      explanation: "This formula allows you to find the roots (solutions) of any quadratic equation. The discriminant (b² - 4ac) tells you how many real solutions exist.",
       subject: "mathematics",
       difficulty: "Hard",
       tags: ["algebra", "equations", "formula"],
@@ -82,6 +129,7 @@ const Flashcards = () => {
       id: "3",
       question: "Who was the first President of India?",
       answer: "Dr. Rajendra Prasad was the first President of India, serving from 1950 to 1962.",
+      explanation: "Dr. Rajendra Prasad was a key figure in the Indian independence movement and played a crucial role in drafting the Indian Constitution.",
       subject: "social-science",
       difficulty: "Easy",
       tags: ["history", "india", "president"],
@@ -95,6 +143,7 @@ const Flashcards = () => {
       id: "4",
       question: "What is a metaphor?",
       answer: "A metaphor is a figure of speech that compares two unlike things without using 'like' or 'as', stating that one thing is another.",
+      explanation: "Metaphors create vivid imagery and help readers understand complex ideas by relating them to familiar concepts. Example: 'Time is money.'",
       subject: "english",
       difficulty: "Medium",
       tags: ["grammar", "literature", "figures of speech"],
@@ -108,6 +157,7 @@ const Flashcards = () => {
       id: "5",
       question: "What is the chemical formula for water?",
       answer: "H₂O - two hydrogen atoms bonded to one oxygen atom.",
+      explanation: "Water is a polar molecule, which gives it unique properties like being able to dissolve many substances and having a high boiling point.",
       subject: "science",
       difficulty: "Easy",
       tags: ["chemistry", "molecules", "basic"],
@@ -121,6 +171,7 @@ const Flashcards = () => {
       id: "6",
       question: "What is the area of a circle?",
       answer: "A = πr², where r is the radius of the circle and π (pi) ≈ 3.14159.",
+      explanation: "This formula calculates the space inside a circle. Pi is the ratio of a circle's circumference to its diameter, approximately 3.14159.",
       subject: "mathematics",
       difficulty: "Medium",
       tags: ["geometry", "area", "circle"],
@@ -129,6 +180,34 @@ const Flashcards = () => {
       createdAt: "2024-01-10",
       studyCount: 178,
       rating: 4.5,
+    },
+    {
+      id: "7",
+      question: "What are the three states of matter?",
+      answer: "Solid, liquid, and gas are the three basic states of matter.",
+      explanation: "Matter can exist in different states depending on temperature and pressure. Plasma is sometimes considered a fourth state.",
+      subject: "science",
+      difficulty: "Easy",
+      tags: ["physics", "states", "matter"],
+      createdBy: "Dr. Lee",
+      isPublic: true,
+      createdAt: "2024-01-09",
+      studyCount: 267,
+      rating: 4.8,
+    },
+    {
+      id: "8",
+      question: "What is the capital of France?",
+      answer: "Paris is the capital and largest city of France.",
+      explanation: "Paris is located in northern France and is known for landmarks like the Eiffel Tower, Louvre Museum, and Notre-Dame Cathedral.",
+      subject: "social-science",
+      difficulty: "Easy",
+      tags: ["geography", "capitals", "europe"],
+      createdBy: "Ms. Garcia",
+      isPublic: true,
+      createdAt: "2024-01-08",
+      studyCount: 198,
+      rating: 4.6,
     },
   ];
 
@@ -159,8 +238,25 @@ const Flashcards = () => {
       filtered = filtered.filter((card) => card.difficulty === selectedDifficulty);
     }
 
+    if (shuffleMode) {
+      filtered = [...filtered].sort(() => Math.random() - 0.5);
+    }
+
     setFilteredCards(filtered);
-  }, [searchTerm, selectedSubject, selectedDifficulty, flashcards]);
+  }, [searchTerm, selectedSubject, selectedDifficulty, flashcards, shuffleMode]);
+
+  // Timer effect for timed mode
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isTimerActive && timeLeft > 0) {
+      interval = setInterval(() => {
+        setTimeLeft(timeLeft - 1);
+      }, 1000);
+    } else if (timeLeft === 0) {
+      handleTimeUp();
+    }
+    return () => clearInterval(interval);
+  }, [isTimerActive, timeLeft]);
 
   const handleCreateCard = () => {
     if (!newCard.question.trim() || !newCard.answer.trim()) return;
@@ -169,6 +265,7 @@ const Flashcards = () => {
       id: Date.now().toString(),
       question: newCard.question,
       answer: newCard.answer,
+      explanation: newCard.explanation,
       subject: newCard.subject,
       difficulty: newCard.difficulty,
       tags: newCard.tags.split(",").map((tag) => tag.trim()).filter(Boolean),
@@ -177,6 +274,7 @@ const Flashcards = () => {
       createdAt: new Date().toISOString().split("T")[0],
       studyCount: 0,
       rating: 0,
+      image: newCard.image,
     };
 
     setFlashcards([card, ...flashcards]);
@@ -187,23 +285,56 @@ const Flashcards = () => {
       difficulty: "Medium",
       tags: "",
       isPublic: true,
+      image: "",
+      explanation: "",
     });
     setActiveTab("browse");
   };
 
-  const startStudyMode = () => {
+  const startStudyMode = (mode: typeof studyModeType) => {
     if (filteredCards.length === 0) return;
+    setStudyModeType(mode);
     setStudyMode(true);
     setCurrentCardIndex(0);
     setShowAnswer(false);
+    setUserAnswer("");
+    setConfidenceLevel(null);
+    setShowExplanation(false);
+    setStreak(0);
+    setStudySession({
+      totalCards: filteredCards.length,
+      currentIndex: 0,
+      correctAnswers: 0,
+      timeSpent: 0,
+      startTime: new Date(),
+    });
+
+    if (mode === 'timed') {
+      setTimeLeft(30);
+      setIsTimerActive(true);
+    }
+  };
+
+  const handleTimeUp = () => {
+    setIsTimerActive(false);
+    setShowAnswer(true);
   };
 
   const nextCard = () => {
     if (currentCardIndex < filteredCards.length - 1) {
       setCurrentCardIndex(currentCardIndex + 1);
       setShowAnswer(false);
+      setUserAnswer("");
+      setConfidenceLevel(null);
+      setShowExplanation(false);
+      
+      if (studyModeType === 'timed') {
+        setTimeLeft(30);
+        setIsTimerActive(true);
+      }
     } else {
       setStudyMode(false);
+      setIsTimerActive(false);
     }
   };
 
@@ -211,7 +342,62 @@ const Flashcards = () => {
     if (currentCardIndex > 0) {
       setCurrentCardIndex(currentCardIndex - 1);
       setShowAnswer(false);
+      setUserAnswer("");
+      setConfidenceLevel(null);
+      setShowExplanation(false);
+      
+      if (studyModeType === 'timed') {
+        setTimeLeft(30);
+        setIsTimerActive(true);
+      }
     }
+  };
+
+  const handleSwipe = (direction: 'left' | 'right') => {
+    if (direction === 'right') {
+      setStreak(streak + 1);
+      if (studySession) {
+        setStudySession({
+          ...studySession,
+          correctAnswers: studySession.correctAnswers + 1,
+        });
+      }
+    } else {
+      setStreak(0);
+    }
+    nextCard();
+  };
+
+  const handleConfidenceSelect = (level: 'easy' | 'medium' | 'hard') => {
+    setConfidenceLevel(level);
+    if (level === 'easy') {
+      setStreak(streak + 1);
+    } else {
+      setStreak(0);
+    }
+    
+    setTimeout(() => {
+      nextCard();
+    }, 1000);
+  };
+
+  const handleTypingSubmit = () => {
+    const currentCard = filteredCards[currentCardIndex];
+    const isCorrect = userAnswer.toLowerCase().trim() === currentCard.answer.toLowerCase().trim();
+    
+    if (isCorrect) {
+      setStreak(streak + 1);
+      if (studySession) {
+        setStudySession({
+          ...studySession,
+          correctAnswers: studySession.correctAnswers + 1,
+        });
+      }
+    } else {
+      setStreak(0);
+    }
+    
+    setShowAnswer(true);
   };
 
   const getDifficultyColor = (difficulty: string) => {
@@ -242,24 +428,111 @@ const Flashcards = () => {
     }
   };
 
+  const getThemeClasses = () => {
+    switch (theme) {
+      case 'dark':
+        return 'bg-gray-900 text-white';
+      case 'neon':
+        return 'bg-gradient-to-br from-purple-900 to-blue-900 text-neon-green';
+      case 'parchment':
+        return 'bg-yellow-50 text-amber-900 border-amber-200';
+      default:
+        return 'bg-white text-gray-900';
+    }
+  };
+
   const tabs = [
     { id: "browse", label: "Browse Cards", icon: <BookOpen className="h-5 w-5" /> },
     { id: "create", label: "Create Card", icon: <Plus className="h-5 w-5" /> },
-    { id: "study", label: "Study Mode", icon: <Brain className="h-5 w-5" /> },
+    { id: "study", label: "Study Modes", icon: <Brain className="h-5 w-5" /> },
+    { id: "progress", label: "Progress", icon: <TrendingUp className="h-5 w-5" /> },
+  ];
+
+  const studyModes = [
+    {
+      id: 'flip',
+      title: 'Classic Flip Cards',
+      description: 'Traditional flashcard experience with smooth flip animations',
+      icon: <RotateCcw className="h-8 w-8" />,
+      color: 'from-learnkins-blue-500 to-learnkins-blue-600',
+    },
+    {
+      id: 'confidence',
+      title: 'Confidence Review',
+      description: 'Rate your confidence level for spaced repetition learning',
+      icon: <Target className="h-8 w-8" />,
+      color: 'from-learnkins-green-500 to-learnkins-green-600',
+    },
+    {
+      id: 'swipe',
+      title: 'Swipe Cards',
+      description: 'Tinder-style swiping for quick review sessions',
+      icon: <Shuffle className="h-8 w-8" />,
+      color: 'from-learnkins-purple-500 to-learnkins-purple-600',
+    },
+    {
+      id: 'typing',
+      title: 'Type Answer',
+      description: 'Type your answers for active recall practice',
+      icon: <Edit className="h-8 w-8" />,
+      color: 'from-learnkins-orange-500 to-learnkins-orange-600',
+    },
+    {
+      id: 'timed',
+      title: 'Timed Challenge',
+      description: 'Race against time to improve speed and retention',
+      icon: <Timer className="h-8 w-8" />,
+      color: 'from-red-500 to-red-600',
+    },
   ];
 
   if (studyMode && filteredCards.length > 0) {
     const currentCard = filteredCards[currentCardIndex];
     
     return (
-      <div className="min-h-screen bg-learnkins-subtle flex items-center justify-center p-4">
-        <div className="max-w-2xl w-full">
+      <div className={`min-h-screen ${getThemeClasses()} flex items-center justify-center p-4`}>
+        <div className="max-w-4xl w-full">
+          {/* Study Mode Header */}
           <div className="text-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Study Mode</h2>
-            <p className="text-gray-600">
-              Card {currentCardIndex + 1} of {filteredCards.length}
-            </p>
-            <div className="w-full bg-gray-200 rounded-full h-2 mt-4">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-4">
+                <h2 className="text-2xl font-bold">
+                  {studyModes.find(m => m.id === studyModeType)?.title}
+                </h2>
+                {streak > 0 && (
+                  <div className="flex items-center space-x-1 bg-learnkins-orange-100 text-learnkins-orange-800 px-3 py-1 rounded-full">
+                    <Flame className="h-4 w-4" />
+                    <span className="font-bold">{streak}</span>
+                  </div>
+                )}
+              </div>
+              <div className="flex items-center space-x-4">
+                <button
+                  onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+                  className="p-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition-colors"
+                >
+                  <Settings className="h-5 w-5" />
+                </button>
+                <button
+                  onClick={() => setStudyMode(false)}
+                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                >
+                  Exit
+                </button>
+              </div>
+            </div>
+            
+            <div className="flex items-center justify-center space-x-6 text-sm text-gray-600 mb-4">
+              <span>Card {currentCardIndex + 1} of {filteredCards.length}</span>
+              {studySession && (
+                <>
+                  <span>Correct: {studySession.correctAnswers}</span>
+                  <span>Accuracy: {Math.round((studySession.correctAnswers / (currentCardIndex + 1)) * 100)}%</span>
+                </>
+              )}
+            </div>
+            
+            <div className="w-full bg-gray-200 rounded-full h-2">
               <div
                 className="bg-learnkins-gradient h-2 rounded-full transition-all duration-300"
                 style={{
@@ -269,76 +542,224 @@ const Flashcards = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-xl p-8 min-h-[400px] flex flex-col justify-center">
+          {/* Timer for Timed Mode */}
+          {studyModeType === 'timed' && (
             <div className="text-center mb-6">
-              <span
-                className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${getDifficultyColor(
-                  currentCard.difficulty
-                )}`}
-              >
-                {currentCard.difficulty}
-              </span>
-              <span
-                className={`inline-block ml-2 px-3 py-1 rounded-full text-sm font-medium text-white ${getSubjectColor(
-                  currentCard.subject
-                )}`}
-              >
-                {currentCard.subject}
-              </span>
+              <div className={`inline-flex items-center space-x-2 px-4 py-2 rounded-full ${
+                timeLeft <= 10 ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'
+              }`}>
+                <Timer className="h-4 w-4" />
+                <span className="font-bold">{timeLeft}s</span>
+              </div>
+            </div>
+          )}
+
+          {/* Main Card */}
+          <div className={`${getThemeClasses()} rounded-2xl shadow-xl p-8 min-h-[500px] flex flex-col justify-center relative overflow-hidden`}>
+            {/* Card Image */}
+            {currentCard.image && (
+              <div className="mb-6">
+                <img
+                  src={currentCard.image}
+                  alt="Flashcard visual"
+                  className="w-full h-48 object-cover rounded-lg"
+                />
+              </div>
+            )}
+
+            {/* Subject and Difficulty Tags */}
+            <div className="text-center mb-6">
+              <div className="flex items-center justify-center space-x-2 mb-4">
+                <span
+                  className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${getDifficultyColor(
+                    currentCard.difficulty
+                  )}`}
+                >
+                  {currentCard.difficulty}
+                </span>
+                <span
+                  className={`inline-block px-3 py-1 rounded-full text-sm font-medium text-white ${getSubjectColor(
+                    currentCard.subject
+                  )}`}
+                >
+                  {currentCard.subject}
+                </span>
+              </div>
             </div>
 
+            {/* Question */}
             <div className="text-center mb-8">
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">
+              <h3 className="text-2xl font-semibold mb-4">
                 {showAnswer ? "Answer:" : "Question:"}
               </h3>
-              <p className="text-lg text-gray-700 leading-relaxed">
+              <p className="text-xl leading-relaxed">
                 {showAnswer ? currentCard.answer : currentCard.question}
               </p>
             </div>
 
-            <div className="flex justify-center space-x-4">
-              {!showAnswer ? (
+            {/* Typing Mode Input */}
+            {studyModeType === 'typing' && !showAnswer && (
+              <div className="mb-6">
+                <input
+                  type="text"
+                  value={userAnswer}
+                  onChange={(e) => setUserAnswer(e.target.value)}
+                  placeholder="Type your answer here..."
+                  className="w-full p-4 border-2 border-gray-300 rounded-lg text-lg focus:border-learnkins-blue-500 focus:outline-none"
+                  onKeyPress={(e) => e.key === 'Enter' && handleTypingSubmit()}
+                />
+                <button
+                  onClick={handleTypingSubmit}
+                  disabled={!userAnswer.trim()}
+                  className="mt-4 w-full bg-learnkins-blue-600 text-white py-3 rounded-lg hover:bg-learnkins-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Submit Answer
+                </button>
+              </div>
+            )}
+
+            {/* Explanation */}
+            {showAnswer && showExplanation && currentCard.explanation && (
+              <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+                <div className="flex items-center space-x-2 mb-2">
+                  <Lightbulb className="h-5 w-5 text-blue-600" />
+                  <span className="font-semibold text-blue-800">Explanation:</span>
+                </div>
+                <p className="text-blue-700">{currentCard.explanation}</p>
+              </div>
+            )}
+
+            {/* Action Buttons */}
+            <div className="flex justify-center space-x-4 mt-8">
+              {studyModeType === 'flip' && (
+                <>
+                  {!showAnswer ? (
+                    <button
+                      onClick={() => setShowAnswer(true)}
+                      className="flex items-center px-8 py-4 bg-learnkins-gradient text-white rounded-lg hover:opacity-90 transition-opacity text-lg font-semibold"
+                    >
+                      <Eye className="h-5 w-5 mr-2" />
+                      Show Answer
+                    </button>
+                  ) : (
+                    <div className="flex space-x-4">
+                      <button
+                        onClick={previousCard}
+                        disabled={currentCardIndex === 0}
+                        className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        Previous
+                      </button>
+                      {currentCard.explanation && (
+                        <button
+                          onClick={() => setShowExplanation(!showExplanation)}
+                          className="flex items-center px-6 py-3 bg-blue-100 text-blue-800 rounded-lg hover:bg-blue-200 transition-colors"
+                        >
+                          <Lightbulb className="h-4 w-4 mr-2" />
+                          {showExplanation ? 'Hide' : 'Show'} Explanation
+                        </button>
+                      )}
+                      <button
+                        onClick={nextCard}
+                        className="px-6 py-3 bg-learnkins-gradient text-white rounded-lg hover:opacity-90 transition-opacity"
+                      >
+                        {currentCardIndex === filteredCards.length - 1 ? "Finish" : "Next"}
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
+
+              {studyModeType === 'swipe' && (
+                <div className="flex space-x-6">
+                  <button
+                    onClick={() => handleSwipe('left')}
+                    className="flex items-center px-8 py-4 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors text-lg font-semibold"
+                  >
+                    <XCircle className="h-6 w-6 mr-2" />
+                    Need Practice
+                  </button>
+                  <button
+                    onClick={() => handleSwipe('right')}
+                    className="flex items-center px-8 py-4 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors text-lg font-semibold"
+                  >
+                    <CheckCircle className="h-6 w-6 mr-2" />
+                    Got It!
+                  </button>
+                </div>
+              )}
+
+              {studyModeType === 'confidence' && showAnswer && !confidenceLevel && (
+                <div className="flex space-x-4">
+                  <button
+                    onClick={() => handleConfidenceSelect('easy')}
+                    className="flex items-center px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+                  >
+                    <CheckCircle className="h-5 w-5 mr-2" />
+                    Easy
+                  </button>
+                  <button
+                    onClick={() => handleConfidenceSelect('medium')}
+                    className="flex items-center px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors"
+                  >
+                    <AlertCircle className="h-5 w-5 mr-2" />
+                    Medium
+                  </button>
+                  <button
+                    onClick={() => handleConfidenceSelect('hard')}
+                    className="flex items-center px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                  >
+                    <XCircle className="h-5 w-5 mr-2" />
+                    Hard
+                  </button>
+                </div>
+              )}
+
+              {studyModeType === 'confidence' && !showAnswer && (
                 <button
                   onClick={() => setShowAnswer(true)}
-                  className="flex items-center px-6 py-3 bg-learnkins-gradient text-white rounded-lg hover:opacity-90 transition-opacity"
+                  className="flex items-center px-8 py-4 bg-learnkins-gradient text-white rounded-lg hover:opacity-90 transition-opacity text-lg font-semibold"
                 >
                   <Eye className="h-5 w-5 mr-2" />
                   Show Answer
                 </button>
-              ) : (
-                <div className="flex space-x-4">
-                  <button
-                    onClick={previousCard}
-                    disabled={currentCardIndex === 0}
-                    className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    Previous
-                  </button>
-                  <button
-                    onClick={() => setShowAnswer(false)}
-                    className="flex items-center px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
-                  >
-                    <EyeOff className="h-5 w-5 mr-2" />
-                    Hide Answer
-                  </button>
-                  <button
-                    onClick={nextCard}
-                    className="px-6 py-3 bg-learnkins-gradient text-white rounded-lg hover:opacity-90 transition-opacity"
-                  >
-                    {currentCardIndex === filteredCards.length - 1 ? "Finish" : "Next"}
-                  </button>
-                </div>
+              )}
+
+              {studyModeType === 'timed' && !showAnswer && (
+                <button
+                  onClick={() => {
+                    setIsTimerActive(false);
+                    setShowAnswer(true);
+                  }}
+                  className="flex items-center px-8 py-4 bg-learnkins-gradient text-white rounded-lg hover:opacity-90 transition-opacity text-lg font-semibold"
+                >
+                  <Eye className="h-5 w-5 mr-2" />
+                  Show Answer
+                </button>
+              )}
+
+              {studyModeType === 'timed' && showAnswer && (
+                <button
+                  onClick={nextCard}
+                  className="px-8 py-4 bg-learnkins-gradient text-white rounded-lg hover:opacity-90 transition-opacity text-lg font-semibold"
+                >
+                  {currentCardIndex === filteredCards.length - 1 ? "Finish" : "Next Card"}
+                </button>
               )}
             </div>
-          </div>
 
-          <div className="text-center mt-6">
-            <button
-              onClick={() => setStudyMode(false)}
-              className="text-gray-600 hover:text-gray-800 transition-colors"
-            >
-              Exit Study Mode
-            </button>
+            {/* Confidence Feedback */}
+            {confidenceLevel && (
+              <div className="text-center mt-4">
+                <div className={`inline-flex items-center space-x-2 px-4 py-2 rounded-full ${
+                  confidenceLevel === 'easy' ? 'bg-green-100 text-green-800' :
+                  confidenceLevel === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                  'bg-red-100 text-red-800'
+                }`}>
+                  <span>Marked as {confidenceLevel}</span>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -364,9 +785,9 @@ const Flashcards = () => {
             <ArrowRight className="h-5 w-5" />
             <span>Flashcards</span>
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">Flashcards</h1>
+          <h1 className="text-5xl md:text-6xl font-bold mb-6">Smart Flashcards</h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Create, study, and master concepts with interactive flashcards
+            Master any subject with our advanced flashcard system featuring multiple study modes, spaced repetition, and progress tracking
           </p>
         </div>
       </section>
@@ -395,9 +816,9 @@ const Flashcards = () => {
                 color: "text-learnkins-green-600",
               },
               {
-                label: "Achievements",
-                value: "156",
-                icon: <Trophy className="h-8 w-8" />,
+                label: "Active Streak",
+                value: streak.toString(),
+                icon: <Flame className="h-8 w-8" />,
                 color: "text-learnkins-orange-600",
               },
             ].map((stat, index) => (
@@ -454,19 +875,32 @@ const Flashcards = () => {
                     Discover and study from our collection of flashcards
                   </p>
                 </div>
-                <button
-                  onClick={startStudyMode}
-                  disabled={filteredCards.length === 0}
-                  className="flex items-center px-6 py-3 bg-learnkins-gradient text-white rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <Brain className="h-5 w-5 mr-2" />
-                  Start Study Mode ({filteredCards.length} cards)
-                </button>
+                <div className="flex space-x-4">
+                  <button
+                    onClick={() => setShuffleMode(!shuffleMode)}
+                    className={`flex items-center px-4 py-2 rounded-lg transition-colors ${
+                      shuffleMode 
+                        ? 'bg-learnkins-purple-600 text-white' 
+                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                    }`}
+                  >
+                    <Shuffle className="h-4 w-4 mr-2" />
+                    Shuffle
+                  </button>
+                  <button
+                    onClick={() => startStudyMode('flip')}
+                    disabled={filteredCards.length === 0}
+                    className="flex items-center px-6 py-3 bg-learnkins-gradient text-white rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <Brain className="h-5 w-5 mr-2" />
+                    Quick Study ({filteredCards.length} cards)
+                  </button>
+                </div>
               </div>
 
-              {/* Filters */}
+              {/* Advanced Filters */}
               <div className="bg-white rounded-xl shadow-md p-6 mb-8">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Search
@@ -513,16 +947,33 @@ const Flashcards = () => {
                       <option value="Hard">Hard</option>
                     </select>
                   </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Theme
+                    </label>
+                    <select
+                      value={theme}
+                      onChange={(e) => setTheme(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-learnkins-blue-500 focus:border-transparent"
+                    >
+                      <option value="light">Light</option>
+                      <option value="dark">Dark</option>
+                      <option value="neon">Neon</option>
+                      <option value="parchment">Parchment</option>
+                    </select>
+                  </div>
                   <div className="flex items-end">
                     <button
                       onClick={() => {
                         setSearchTerm("");
                         setSelectedSubject("all");
                         setSelectedDifficulty("all");
+                        setShuffleMode(false);
                       }}
-                      className="w-full px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                      className="w-full px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center"
                     >
-                      <Filter className="h-4 w-4 mx-auto" />
+                      <RefreshCw className="h-4 w-4 mr-2" />
+                      Reset
                     </button>
                   </div>
                 </div>
@@ -533,8 +984,16 @@ const Flashcards = () => {
                 {filteredCards.map((card) => (
                   <div
                     key={card.id}
-                    className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6"
+                    className={`${getThemeClasses()} rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 transform hover:-translate-y-1`}
                   >
+                    {card.image && (
+                      <img
+                        src={card.image}
+                        alt="Card visual"
+                        className="w-full h-32 object-cover rounded-lg mb-4"
+                      />
+                    )}
+                    
                     <div className="flex items-center justify-between mb-4">
                       <span
                         className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(
@@ -573,9 +1032,21 @@ const Flashcards = () => {
                       )}
                     </div>
 
-                    <div className="flex items-center justify-between text-sm text-gray-500">
+                    <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
                       <span>By {card.createdBy}</span>
-                      <span>{card.studyCount} studies</span>
+                      <div className="flex items-center space-x-1">
+                        <Users className="h-4 w-4" />
+                        <span>{card.studyCount}</span>
+                      </div>
+                    </div>
+
+                    <div className="flex space-x-2">
+                      <button className="flex-1 bg-learnkins-blue-600 text-white py-2 px-3 rounded-lg hover:bg-learnkins-blue-700 transition-colors text-sm">
+                        Study
+                      </button>
+                      <button className="p-2 border border-gray-300 text-gray-600 rounded-lg hover:bg-gray-50 transition-colors">
+                        <Heart className="h-4 w-4" />
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -642,6 +1113,36 @@ const Flashcards = () => {
                         placeholder="Enter the answer here..."
                         rows={4}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-learnkins-blue-500 focus:border-transparent resize-none"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Explanation (Optional)
+                      </label>
+                      <textarea
+                        value={newCard.explanation}
+                        onChange={(e) =>
+                          setNewCard({ ...newCard, explanation: e.target.value })
+                        }
+                        placeholder="Add additional explanation or context..."
+                        rows={3}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-learnkins-blue-500 focus:border-transparent resize-none"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Image URL (Optional)
+                      </label>
+                      <input
+                        type="url"
+                        value={newCard.image}
+                        onChange={(e) =>
+                          setNewCard({ ...newCard, image: e.target.value })
+                        }
+                        placeholder="https://example.com/image.jpg"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-learnkins-blue-500 focus:border-transparent"
                       />
                     </div>
 
@@ -738,62 +1239,176 @@ const Flashcards = () => {
 
           {activeTab === "study" && (
             <div>
-              <div className="text-center mb-8">
+              <div className="text-center mb-12">
                 <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                  Study Mode
+                  Choose Your Study Mode
                 </h2>
                 <p className="text-lg text-gray-600 mb-8">
-                  Choose your study preferences and start learning
+                  Select the study method that works best for your learning style
                 </p>
+              </div>
 
-                <div className="max-w-md mx-auto bg-white rounded-xl shadow-md p-6">
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Subject
-                      </label>
-                      <select
-                        value={selectedSubject}
-                        onChange={(e) => setSelectedSubject(e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-learnkins-blue-500 focus:border-transparent"
-                      >
-                        <option value="all">All Subjects</option>
-                        <option value="science">Science</option>
-                        <option value="mathematics">Mathematics</option>
-                        <option value="social-science">Social Science</option>
-                        <option value="english">English</option>
-                      </select>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                {studyModes.map((mode) => (
+                  <div
+                    key={mode.id}
+                    className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden group cursor-pointer"
+                    onClick={() => startStudyMode(mode.id as typeof studyModeType)}
+                  >
+                    <div className={`bg-gradient-to-br ${mode.color} p-8 text-white text-center`}>
+                      <div className="mb-4 flex justify-center group-hover:scale-110 transition-transform duration-300">
+                        {mode.icon}
+                      </div>
+                      <h3 className="text-xl font-bold mb-2">{mode.title}</h3>
                     </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Difficulty
-                      </label>
-                      <select
-                        value={selectedDifficulty}
-                        onChange={(e) => setSelectedDifficulty(e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-learnkins-blue-500 focus:border-transparent"
-                      >
-                        <option value="all">All Levels</option>
-                        <option value="Easy">Easy</option>
-                        <option value="Medium">Medium</option>
-                        <option value="Hard">Hard</option>
-                      </select>
-                    </div>
-
-                    <div className="pt-4">
-                      <p className="text-sm text-gray-600 mb-4">
-                        {filteredCards.length} flashcards available
-                      </p>
-                      <button
-                        onClick={startStudyMode}
-                        disabled={filteredCards.length === 0}
-                        className="w-full px-6 py-3 bg-learnkins-gradient text-white rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        Start Studying
-                      </button>
+                    <div className="p-6">
+                      <p className="text-gray-600 mb-4">{mode.description}</p>
+                      <div className="flex items-center justify-between text-sm text-gray-500">
+                        <span>{filteredCards.length} cards available</span>
+                        <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
+                      </div>
                     </div>
                   </div>
+                ))}
+              </div>
+
+              {/* Study Settings */}
+              <div className="max-w-md mx-auto bg-white rounded-xl shadow-md p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Study Settings</h3>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Subject Filter
+                    </label>
+                    <select
+                      value={selectedSubject}
+                      onChange={(e) => setSelectedSubject(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-learnkins-blue-500 focus:border-transparent"
+                    >
+                      <option value="all">All Subjects</option>
+                      <option value="science">Science</option>
+                      <option value="mathematics">Mathematics</option>
+                      <option value="social-science">Social Science</option>
+                      <option value="english">English</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Difficulty Filter
+                    </label>
+                    <select
+                      value={selectedDifficulty}
+                      onChange={(e) => setSelectedDifficulty(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-learnkins-blue-500 focus:border-transparent"
+                    >
+                      <option value="all">All Levels</option>
+                      <option value="Easy">Easy</option>
+                      <option value="Medium">Medium</option>
+                      <option value="Hard">Hard</option>
+                    </select>
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <label className="text-sm font-medium text-gray-700">
+                      Shuffle Cards
+                    </label>
+                    <button
+                      onClick={() => setShuffleMode(!shuffleMode)}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                        shuffleMode ? 'bg-learnkins-blue-600' : 'bg-gray-200'
+                      }`}
+                    >
+                      <span
+                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                          shuffleMode ? 'translate-x-6' : 'translate-x-1'
+                        }`}
+                      />
+                    </button>
+                  </div>
+
+                  <div className="pt-4 border-t border-gray-200">
+                    <p className="text-sm text-gray-600 mb-4">
+                      {filteredCards.length} flashcards ready for study
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "progress" && (
+            <div>
+              <div className="mb-8">
+                <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                  Your Progress
+                </h2>
+                <p className="text-lg text-gray-600">
+                  Track your learning journey and achievements
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div className="bg-white rounded-xl shadow-md p-6 text-center">
+                  <div className="text-learnkins-blue-600 mb-4 flex justify-center">
+                    <Trophy className="h-12 w-12" />
+                  </div>
+                  <div className="text-3xl font-bold text-gray-900 mb-2">
+                    {flashcards.filter(card => card.createdBy === 'You').length}
+                  </div>
+                  <div className="text-gray-600">Cards Created</div>
+                </div>
+
+                <div className="bg-white rounded-xl shadow-md p-6 text-center">
+                  <div className="text-learnkins-green-600 mb-4 flex justify-center">
+                    <Target className="h-12 w-12" />
+                  </div>
+                  <div className="text-3xl font-bold text-gray-900 mb-2">
+                    {Math.round(flashcards.reduce((acc, card) => acc + card.studyCount, 0) / flashcards.length)}
+                  </div>
+                  <div className="text-gray-600">Avg. Study Count</div>
+                </div>
+
+                <div className="bg-white rounded-xl shadow-md p-6 text-center">
+                  <div className="text-learnkins-orange-600 mb-4 flex justify-center">
+                    <Flame className="h-12 w-12" />
+                  </div>
+                  <div className="text-3xl font-bold text-gray-900 mb-2">
+                    {streak}
+                  </div>
+                  <div className="text-gray-600">Current Streak</div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-xl shadow-md p-6">
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                  Subject Performance
+                </h3>
+                <div className="space-y-4">
+                  {['science', 'mathematics', 'social-science', 'english'].map((subject) => {
+                    const subjectCards = flashcards.filter(card => card.subject === subject);
+                    const avgRating = subjectCards.length > 0 
+                      ? subjectCards.reduce((acc, card) => acc + card.rating, 0) / subjectCards.length 
+                      : 0;
+                    const progress = Math.round((avgRating / 5) * 100);
+                    
+                    return (
+                      <div key={subject}>
+                        <div className="flex justify-between mb-2">
+                          <span className="text-gray-700 font-medium capitalize">
+                            {subject.replace('-', ' ')}
+                          </span>
+                          <span className="text-gray-600">{progress}%</span>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-2">
+                          <div
+                            className={`h-2 rounded-full transition-all duration-300 ${getSubjectColor(subject)}`}
+                            style={{ width: `${progress}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -805,17 +1420,17 @@ const Flashcards = () => {
       <section className="py-20 bg-learnkins-gradient text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold mb-4">
-            Master Any Subject with Flashcards
+            Master Any Subject with Smart Flashcards
           </h2>
           <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Create, study, and share flashcards to accelerate your learning journey
+            Experience the future of learning with our advanced flashcard system featuring AI-powered spaced repetition, multiple study modes, and comprehensive progress tracking
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={() => setActiveTab("create")}
               className="inline-flex items-center px-8 py-4 bg-white text-learnkins-blue-600 font-semibold rounded-lg text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-lg"
             >
-              Create Flashcard
+              Create Your First Card
               <Plus className="ml-2 h-5 w-5" />
             </button>
             <Link

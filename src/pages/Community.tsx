@@ -68,7 +68,7 @@ const Community = () => {
       subject: "Mathematics",
       description: "Collaborative problem-solving and concept discussions",
       activity: "Very Active",
-      color: "bg-blue-500",
+      color: "bg-learnkins-blue-500",
     },
     {
       name: "Science Explorers",
@@ -76,7 +76,7 @@ const Community = () => {
       subject: "Science",
       description: "Experiment sharing and scientific discussions",
       activity: "Active",
-      color: "bg-purple-500",
+      color: "bg-learnkins-purple-500",
     },
     {
       name: "History Buffs",
@@ -84,7 +84,7 @@ const Community = () => {
       subject: "Social Science",
       description: "Historical analysis and timeline discussions",
       activity: "Moderate",
-      color: "bg-green-500",
+      color: "bg-learnkins-green-500",
     },
     {
       name: "Word Wizards",
@@ -92,7 +92,7 @@ const Community = () => {
       subject: "English",
       description: "Creative writing and literature discussions",
       activity: "Active",
-      color: "bg-orange-500",
+      color: "bg-learnkins-orange-500",
     },
   ];
 
@@ -147,11 +147,11 @@ const Community = () => {
   const getActivityColor = (activity: string) => {
     switch (activity) {
       case "Very Active":
-        return "text-green-600 bg-green-100";
+        return "text-learnkins-green-600 bg-learnkins-green-100";
       case "Active":
-        return "text-blue-600 bg-blue-100";
+        return "text-learnkins-blue-600 bg-learnkins-blue-100";
       case "Moderate":
-        return "text-yellow-600 bg-yellow-100";
+        return "text-learnkins-orange-600 bg-learnkins-orange-100";
       default:
         return "text-gray-600 bg-gray-100";
     }
@@ -160,11 +160,11 @@ const Community = () => {
   const getRarityColor = (rarity: string) => {
     switch (rarity) {
       case "Gold":
-        return "text-yellow-600 bg-yellow-100";
+        return "text-learnkins-orange-600 bg-learnkins-orange-100";
       case "Silver":
         return "text-gray-600 bg-gray-100";
       case "Bronze":
-        return "text-orange-600 bg-orange-100";
+        return "text-learnkins-orange-600 bg-learnkins-orange-100";
       default:
         return "text-gray-600 bg-gray-100";
     }
@@ -196,7 +196,7 @@ const Community = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header Section */}
-      <section className="relative bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 text-white py-20">
+      <section className="relative bg-gradient-to-br from-slate-900 via-learnkins-blue-900 to-slate-800 text-white py-20">
         <div
           className="absolute inset-0 opacity-20"
           style={{
@@ -205,7 +205,7 @@ const Community = () => {
         ></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="flex items-center justify-center space-x-2 text-lg mb-6">
-            <Link to="/" className="hover:text-blue-400 transition-colors">
+            <Link to="/" className="hover:text-learnkins-blue-400 transition-colors">
               Home
             </Link>
             <ArrowRight className="h-5 w-5" />
@@ -228,28 +228,32 @@ const Community = () => {
                 label: "Active Students",
                 value: "2,500+",
                 icon: <Users className="h-8 w-8" />,
+                color: "text-learnkins-blue-600",
               },
               {
                 label: "Discussions",
                 value: "1,200+",
                 icon: <MessageCircle className="h-8 w-8" />,
+                color: "text-learnkins-purple-600",
               },
               {
                 label: "Study Groups",
                 value: "150+",
                 icon: <Users className="h-8 w-8" />,
+                color: "text-learnkins-green-600",
               },
               {
                 label: "Achievements",
                 value: "500+",
                 icon: <Trophy className="h-8 w-8" />,
+                color: "text-learnkins-orange-600",
               },
             ].map((stat, index) => (
               <div
                 key={index}
                 className="text-center p-6 bg-gray-50 rounded-xl hover:shadow-md transition-shadow duration-300"
               >
-                <div className="text-blue-600 mb-4 flex justify-center">
+                <div className={`${stat.color} mb-4 flex justify-center`}>
                   {stat.icon}
                 </div>
                 <div className="text-3xl font-bold text-gray-900 mb-2">
@@ -272,7 +276,7 @@ const Community = () => {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center space-x-2 py-4 px-2 border-b-2 font-medium text-sm transition-colors whitespace-nowrap ${
                   activeTab === tab.id
-                    ? "border-blue-500 text-blue-600"
+                    ? "border-learnkins-blue-500 text-learnkins-blue-600"
                     : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                 }`}
               >
@@ -293,7 +297,7 @@ const Community = () => {
                 <h2 className="text-3xl font-bold text-gray-900">
                   Recent Discussions
                 </h2>
-                <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300 font-medium">
+                <button className="px-6 py-3 bg-learnkins-blue-600 text-white rounded-lg hover:bg-learnkins-blue-700 transition-colors duration-300 font-medium">
                   Start New Discussion
                 </button>
               </div>
@@ -307,10 +311,10 @@ const Community = () => {
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center space-x-3 mb-2">
-                          <h3 className="text-xl font-semibold text-gray-900 hover:text-blue-600 cursor-pointer">
+                          <h3 className="text-xl font-semibold text-gray-900 hover:text-learnkins-blue-600 cursor-pointer">
                             {discussion.title}
                           </h3>
-                          <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded">
+                          <span className="px-2 py-1 bg-learnkins-blue-100 text-learnkins-blue-800 text-xs font-medium rounded">
                             {discussion.subject}
                           </span>
                         </div>
@@ -338,14 +342,14 @@ const Community = () => {
 
                       <div className="flex space-x-2 ml-4">
                         <button
-                          className="p-2 text-gray-400 hover:text-red-500 transition-colors"
+                          className="p-2 text-gray-400 hover:text-learnkins-orange-500 transition-colors"
                           aria-label="Like discussion"
                           title="Like discussion"
                         >
                           <Heart className="h-5 w-5" />
                         </button>
                         <button
-                          className="p-2 text-gray-400 hover:text-blue-500 transition-colors"
+                          className="p-2 text-gray-400 hover:text-learnkins-blue-500 transition-colors"
                           aria-label="Share discussion"
                           title="Share discussion"
                         >
@@ -365,7 +369,7 @@ const Community = () => {
                 <h2 className="text-3xl font-bold text-gray-900">
                   Study Groups
                 </h2>
-                <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300 font-medium">
+                <button className="px-6 py-3 bg-learnkins-blue-600 text-white rounded-lg hover:bg-learnkins-blue-700 transition-colors duration-300 font-medium">
                   Create Group
                 </button>
               </div>
@@ -408,7 +412,7 @@ const Community = () => {
                         <Users className="h-4 w-4" />
                         <span>{group.members} members</span>
                       </div>
-                      <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300 font-medium">
+                      <button className="px-4 py-2 bg-learnkins-blue-600 text-white rounded-lg hover:bg-learnkins-blue-700 transition-colors duration-300 font-medium">
                         Join Group
                       </button>
                     </div>
@@ -512,7 +516,7 @@ const Community = () => {
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-lg font-bold text-blue-600">
+                            <div className="text-lg font-bold text-learnkins-blue-600">
                               {student.points.toLocaleString()}
                             </div>
                           </td>
@@ -520,7 +524,7 @@ const Community = () => {
                             <span
                               className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                                 student.change.includes("+")
-                                  ? "bg-green-100 text-green-800"
+                                  ? "bg-learnkins-green-100 text-learnkins-green-800"
                                   : student.change.includes("-")
                                   ? "bg-red-100 text-red-800"
                                   : "bg-gray-100 text-gray-800"
@@ -541,7 +545,7 @@ const Community = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-teal-600 text-white">
+      <section className="py-20 bg-learnkins-gradient text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold mb-4">
             Join Our Learning Community
@@ -553,12 +557,12 @@ const Community = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/subjects"
-              className="inline-flex items-center px-8 py-4 bg-white text-blue-600 font-semibold rounded-lg text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-lg"
+              className="inline-flex items-center px-8 py-4 bg-white text-learnkins-blue-600 font-semibold rounded-lg text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-lg"
             >
               Start Learning
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
-            <button className="inline-flex items-center px-8 py-4 border-2 border-white text-white font-semibold rounded-lg text-lg hover:bg-white hover:text-blue-600 transform hover:scale-105 transition-all duration-300">
+            <button className="inline-flex items-center px-8 py-4 border-2 border-white text-white font-semibold rounded-lg text-lg hover:bg-white hover:text-learnkins-blue-600 transform hover:scale-105 transition-all duration-300">
               Join Community
             </button>
           </div>
