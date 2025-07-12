@@ -9,9 +9,8 @@ const Register = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    role: 'student',
-    grade: '8th',
-    parentEmail: ''
+    role: 'developer',
+    bio: ''
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -60,12 +59,6 @@ const Register = () => {
       newErrors.confirmPassword = 'Passwords do not match';
     }
 
-    if (formData.role === 'student' && !formData.parentEmail.trim()) {
-      newErrors.parentEmail = 'Parent email is required for students';
-    } else if (formData.role === 'student' && formData.parentEmail && !/\S+@\S+\.\S+/.test(formData.parentEmail)) {
-      newErrors.parentEmail = 'Parent email is invalid';
-    }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -91,40 +84,38 @@ const Register = () => {
 
   const getRoleDescription = (role) => {
     switch (role) {
+      case 'developer':
+        return 'Professional developer looking to share knowledge and get help';
       case 'student':
-        return 'Access learning materials, take quizzes, and track progress';
-      case 'parent':
-        return 'Monitor your child\'s progress and set parental controls';
-      case 'teacher':
-        return 'Create content, manage students, and view analytics';
+        return 'Student learning programming and seeking guidance';
+      case 'enthusiast':
+        return 'Programming enthusiast passionate about technology';
       default:
         return '';
     }
   };
 
   return (
-    <div className="min-h-screen bg-learnkins-subtle flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
           <Link to="/" className="flex items-center space-x-2">
-            <img 
-              src="/Screenshot 2025-07-01 135146.png" 
-              alt="LearnKins" 
-              className="h-12 w-auto"
-            />
+            <div className="text-3xl font-bold">
+              Stack<span className="text-blue-600">It</span>
+            </div>
           </Link>
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Join LearnKins today
+          Join StackIt today
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
-          Start your learning journey with us
+          Start asking questions and sharing knowledge
         </p>
         <p className="mt-1 text-center text-sm text-gray-500">
           Already have an account?{' '}
           <Link
             to="/login"
-            className="font-medium text-learnkins-blue-600 hover:text-learnkins-blue-500 transition-colors"
+            className="font-medium text-blue-600 hover:text-blue-500 transition-colors"
           >
             Sign in here
           </Link>
@@ -153,7 +144,7 @@ const Register = () => {
                   required
                   value={formData.name}
                   onChange={handleChange}
-                  className={`appearance-none block w-full px-3 py-2 border rounded-md placeholder-gray-400 focus:outline-none focus:ring-learnkins-blue-500 focus:border-learnkins-blue-500 transition-colors ${
+                  className={`appearance-none block w-full px-3 py-2 border rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                     errors.name ? 'border-red-300' : 'border-gray-300'
                   }`}
                   placeholder="Enter your full name"
@@ -180,7 +171,7 @@ const Register = () => {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className={`appearance-none block w-full px-3 py-2 border rounded-md placeholder-gray-400 focus:outline-none focus:ring-learnkins-blue-500 focus:border-learnkins-blue-500 transition-colors ${
+                  className={`appearance-none block w-full px-3 py-2 border rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-colors ${
                     errors.email ? 'border-red-300' : 'border-gray-300'
                   }`}
                   placeholder="Enter your email"
@@ -204,11 +195,11 @@ const Register = () => {
                   name="role"
                   value={formData.role}
                   onChange={handleChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-learnkins-blue-500 focus:border-learnkins-blue-500 transition-colors"
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-colors"
                 >
+                  <option value="developer">Professional Developer</option>
                   <option value="student">Student</option>
-                  <option value="parent">Parent</option>
-                  <option value="teacher">Teacher</option>
+                  <option value="enthusiast">Programming Enthusiast</option>
                 </select>
                 <p className="mt-1 text-sm text-gray-500">
                   {getRoleDescription(formData.role)}
@@ -216,56 +207,22 @@ const Register = () => {
               </div>
             </div>
 
-            {formData.role === 'student' && (
-              <>
-                <div>
-                  <label htmlFor="grade" className="block text-sm font-medium text-gray-700">
-                    Grade *
-                  </label>
-                  <div className="mt-1">
-                    <select
-                      id="grade"
-                      name="grade"
-                      value={formData.grade}
-                      onChange={handleChange}
-                      className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-learnkins-blue-500 focus:border-learnkins-blue-500 transition-colors"
-                    >
-                      <option value="6th">6th Grade</option>
-                      <option value="7th">7th Grade</option>
-                      <option value="8th">8th Grade</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label htmlFor="parentEmail" className="block text-sm font-medium text-gray-700">
-                    Parent Email *
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      id="parentEmail"
-                      name="parentEmail"
-                      type="email"
-                      value={formData.parentEmail}
-                      onChange={handleChange}
-                      className={`appearance-none block w-full px-3 py-2 border rounded-md placeholder-gray-400 focus:outline-none focus:ring-learnkins-blue-500 focus:border-learnkins-blue-500 transition-colors ${
-                        errors.parentEmail ? 'border-red-300' : 'border-gray-300'
-                      }`}
-                      placeholder="Enter parent's email"
-                    />
-                    {errors.parentEmail && (
-                      <p className="mt-1 text-sm text-red-600 flex items-center space-x-1">
-                        <AlertCircle className="h-4 w-4" />
-                        <span>{errors.parentEmail}</span>
-                      </p>
-                    )}
-                    <p className="mt-1 text-sm text-gray-500">
-                      We'll create a parent account for monitoring your progress
-                    </p>
-                  </div>
-                </div>
-              </>
-            )}
+            <div>
+              <label htmlFor="bio" className="block text-sm font-medium text-gray-700">
+                Bio (Optional)
+              </label>
+              <div className="mt-1">
+                <textarea
+                  id="bio"
+                  name="bio"
+                  rows={3}
+                  value={formData.bio}
+                  onChange={handleChange}
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none"
+                  placeholder="Tell us a bit about yourself and your programming interests..."
+                />
+              </div>
+            </div>
 
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
@@ -279,7 +236,7 @@ const Register = () => {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className={`appearance-none block w-full px-3 py-2 border rounded-md placeholder-gray-400 focus:outline-none focus:ring-learnkins-blue-500 focus:border-learnkins-blue-500 pr-10 transition-colors ${
+                  className={`appearance-none block w-full px-3 py-2 border rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 pr-10 transition-colors ${
                     errors.password ? 'border-red-300' : 'border-gray-300'
                   }`}
                   placeholder="Enter your password"
@@ -316,7 +273,7 @@ const Register = () => {
                   required
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className={`appearance-none block w-full px-3 py-2 border rounded-md placeholder-gray-400 focus:outline-none focus:ring-learnkins-blue-500 focus:border-learnkins-blue-500 pr-10 transition-colors ${
+                  className={`appearance-none block w-full px-3 py-2 border rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 pr-10 transition-colors ${
                     errors.confirmPassword ? 'border-red-300' : 'border-gray-300'
                   }`}
                   placeholder="Confirm your password"
@@ -340,7 +297,7 @@ const Register = () => {
                 </p>
               )}
               {formData.password && formData.confirmPassword && !errors.confirmPassword && formData.password === formData.confirmPassword && (
-                <p className="mt-1 text-sm text-learnkins-green-600 flex items-center space-x-1">
+                <p className="mt-1 text-sm text-green-600 flex items-center space-x-1">
                   <CheckCircle className="h-4 w-4" />
                   <span>Passwords match</span>
                 </p>
@@ -353,15 +310,15 @@ const Register = () => {
                 name="terms"
                 type="checkbox"
                 required
-                className="h-4 w-4 text-learnkins-blue-600 focus:ring-learnkins-blue-500 border-gray-300 rounded"
+                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
               />
               <label htmlFor="terms" className="ml-2 block text-sm text-gray-900">
                 I agree to the{' '}
-                <Link to="/terms" className="text-learnkins-blue-600 hover:text-learnkins-blue-500">
+                <Link to="/terms" className="text-blue-600 hover:text-blue-500">
                   Terms of Service
                 </Link>{' '}
                 and{' '}
-                <Link to="/privacy" className="text-learnkins-blue-600 hover:text-learnkins-blue-500">
+                <Link to="/privacy" className="text-blue-600 hover:text-blue-500">
                   Privacy Policy
                 </Link>
               </label>
@@ -371,7 +328,7 @@ const Register = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-learnkins-gradient hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-learnkins-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
+                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
               >
                 {loading ? (
                   <div className="flex items-center space-x-2">

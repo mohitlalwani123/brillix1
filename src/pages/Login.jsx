@@ -43,28 +43,26 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-learnkins-subtle flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
           <Link to="/" className="flex items-center space-x-2">
-            <img 
-              src="/Screenshot 2025-07-01 135146.png" 
-              alt="LearnKins" 
-              className="h-12 w-auto"
-            />
+            <div className="text-3xl font-bold">
+              Stack<span className="text-blue-600">It</span>
+            </div>
           </Link>
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
           Welcome back!
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
-          Sign in to continue your learning journey
+          Sign in to continue asking and answering questions
         </p>
         <p className="mt-1 text-center text-sm text-gray-500">
           Or{' '}
           <Link
             to="/register"
-            className="font-medium text-learnkins-blue-600 hover:text-learnkins-blue-500 transition-colors"
+            className="font-medium text-blue-600 hover:text-blue-500 transition-colors"
           >
             create a new account
           </Link>
@@ -94,7 +92,7 @@ const Login = () => {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-learnkins-blue-500 focus:border-learnkins-blue-500 transition-colors"
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-colors"
                   placeholder="Enter your email"
                 />
               </div>
@@ -113,7 +111,7 @@ const Login = () => {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-learnkins-blue-500 focus:border-learnkins-blue-500 pr-10 transition-colors"
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 pr-10 transition-colors"
                   placeholder="Enter your password"
                 />
                 <button
@@ -136,7 +134,7 @@ const Login = () => {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
-                  className="h-4 w-4 text-learnkins-blue-600 focus:ring-learnkins-blue-500 border-gray-300 rounded"
+                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                 />
                 <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
                   Remember me
@@ -146,7 +144,7 @@ const Login = () => {
               <div className="text-sm">
                 <Link
                   to="/forgot-password"
-                  className="font-medium text-learnkins-blue-600 hover:text-learnkins-blue-500 transition-colors"
+                  className="font-medium text-blue-600 hover:text-blue-500 transition-colors"
                 >
                   Forgot your password?
                 </Link>
@@ -157,7 +155,7 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-learnkins-gradient hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-learnkins-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
+                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
               >
                 {loading ? (
                   <div className="flex items-center space-x-2">
@@ -184,37 +182,19 @@ const Login = () => {
             <div className="mt-6 grid grid-cols-2 gap-3">
               <button
                 type="button"
-                onClick={() => handleDemoLogin('student@learnkins.com', 'student123')}
+                onClick={() => handleDemoLogin('developer@stackit.com', 'demo123')}
                 className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors"
               >
-                <span className="text-learnkins-blue-600 mr-1">👨‍🎓</span>
+                <span className="text-blue-600 mr-1">👨‍💻</span>
+                Developer
+              </button>
+              <button
+                type="button"
+                onClick={() => handleDemoLogin('student@stackit.com', 'demo123')}
+                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors"
+              >
+                <span className="text-green-600 mr-1">🎓</span>
                 Student
-              </button>
-              <button
-                type="button"
-                onClick={() => handleDemoLogin('parent@learnkins.com', 'parent123')}
-                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors"
-              >
-                <span className="text-learnkins-green-600 mr-1">👨‍👩‍👧‍👦</span>
-                Parent
-              </button>
-            </div>
-            <div className="mt-3 grid grid-cols-2 gap-3">
-              <button
-                type="button"
-                onClick={() => handleDemoLogin('teacher@learnkins.com', 'teacher123')}
-                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors"
-              >
-                <span className="text-learnkins-purple-600 mr-1">👨‍🏫</span>
-                Teacher
-              </button>
-              <button
-                type="button"
-                onClick={() => handleDemoLogin('admin@learnkins.com', 'admin123')}
-                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors"
-              >
-                <span className="text-learnkins-orange-600 mr-1">👨‍💼</span>
-                Admin
               </button>
             </div>
           </div>

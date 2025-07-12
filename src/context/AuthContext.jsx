@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
-import { authAPI } from '../utils/api';
 
 const AuthContext = createContext();
 
@@ -68,15 +67,14 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       const token = localStorage.getItem('token');
-      if (token) {
+      const userData = localStorage.getItem('user');
+      
+      if (token && userData) {
         try {
-          const response = await authAPI.getMe();
+          const user = JSON.parse(userData);
           dispatch({
             type: 'AUTH_SUCCESS',
-            payload: {
-              user: response.data.user,
-              token
-            }
+            payload: { user, token }
           });
         } catch (error) {
           console.error('Auth check failed:', error);
@@ -96,22 +94,48 @@ export const AuthProvider = ({ children }) => {
   const login = async (credentials) => {
     try {
       dispatch({ type: 'AUTH_START' });
-      const response = await authAPI.login(credentials);
       
-      const { token, user } = response.data;
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
+      // Mock user data based on email
+      const mockUsers = {
+        'developer@stackit.com': {
+          id: 1,
+          name: 'John Developer',
+          email: 'developer@stackit.com',
+          role: 'developer',
+          bio: 'Full-stack developer with 5+ years experience'
+        },
+        'student@stackit.com': {
+          id: 2,
+          name: 'Jane Student',
+          email: 'student@stackit.com',
+          role: 'student',
+          bio: 'Computer Science student learning web development'
+        }
+      };
+
+      const user = mockUsers[credentials.email];
       
-      dispatch({
-        type: 'AUTH_SUCCESS',
-        payload: { user, token }
-      });
-      
-      return { success: true };
+      if (user && credentials.password === 'demo123') {
+        const token = 'mock-jwt-token';
+        
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
+        
+        dispatch({
+          type: 'AUTH_SUCCESS',
+          payload: { user, token }
+        });
+        
+        return { success: true };
+      } else {
+        throw new Error('Invalid credentials');
+      }
     } catch (error) {
       console.error('Login error:', error);
-      const message = error.response?.data?.message || 'Login failed';
+      const message = error.message || 'Login failed';
       dispatch({ type: 'AUTH_FAIL', payload: message });
       return { success: false, error: message };
     }
@@ -121,9 +145,19 @@ export const AuthProvider = ({ children }) => {
   const register = async (userData) => {
     try {
       dispatch({ type: 'AUTH_START' });
-      const response = await authAPI.register(userData);
       
-      const { token, user } = response.data;
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      const user = {
+        id: Date.now(),
+        name: userData.name,
+        email: userData.email,
+        role: userData.role,
+        bio: userData.bio || ''
+      };
+      
+      const token = 'mock-jwt-token';
       
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
@@ -136,7 +170,7 @@ export const AuthProvider = ({ children }) => {
       return { success: true };
     } catch (error) {
       console.error('Registration error:', error);
-      const message = error.response?.data?.message || 'Registration failed';
+      const message = error.message || 'Registration failed';
       dispatch({ type: 'AUTH_FAIL', payload: message });
       return { success: false, error: message };
     }
@@ -145,7 +179,8 @@ export const AuthProvider = ({ children }) => {
   // Logout function
   const logout = async () => {
     try {
-      await authAPI.logout();
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 500));
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
@@ -158,14 +193,15 @@ export const AuthProvider = ({ children }) => {
   // Update profile function
   const updateProfile = async (data) => {
     try {
-      const response = await authAPI.updateProfile(data);
+      const updatedUser = { ...state.user, ...data };
+      localStorage.setItem('user', JSON.stringify(updatedUser));
       dispatch({
         type: 'UPDATE_USER',
-        payload: response.data.user
+        payload: data
       });
       return { success: true };
     } catch (error) {
-      const message = error.response?.data?.message || 'Update failed';
+      const message = error.message || 'Update failed';
       return { success: false, error: message };
     }
   };

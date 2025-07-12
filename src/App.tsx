@@ -6,15 +6,11 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Subjects from './pages/Subjects';
-import SubjectDetail from './pages/SubjectDetail';
-import Faculty from './pages/Faculty';
-import StudyMaterials from './pages/StudyMaterials';
-import GamesQuiz from './pages/GamesQuiz';
+import Questions from './pages/Questions';
+import AskQuestion from './pages/AskQuestion';
+import QuestionDetail from './pages/QuestionDetail';
 import Community from './pages/Community';
-import ParentalControl from './pages/ParentalControl';
-import Contact from './pages/Contact';
-import Flashcards from './pages/Flashcards';
+import Profile from './pages/Profile';
 import Footer from './components/Footer';
 
 function App() {
@@ -27,29 +23,25 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/subjects" element={<Subjects />} />
-            <Route path="/subjects/:subject" element={<SubjectDetail />} />
-            <Route path="/faculty" element={<Faculty />} />
-            <Route path="/study-materials" element={<StudyMaterials />} />
-            <Route path="/flashcards" element={<Flashcards />} />
-            <Route path="/games-quiz" element={<GamesQuiz />} />
+            <Route path="/questions" element={<Questions />} />
+            <Route path="/questions/:id" element={<QuestionDetail />} />
             <Route 
-              path="/community" 
+              path="/ask" 
               element={
                 <ProtectedRoute>
-                  <Community />
+                  <AskQuestion />
                 </ProtectedRoute>
               } 
             />
+            <Route path="/community" element={<Community />} />
             <Route 
-              path="/parental-control" 
+              path="/profile" 
               element={
-                <ProtectedRoute roles={['parent', 'student']}>
-                  <ParentalControl />
+                <ProtectedRoute>
+                  <Profile />
                 </ProtectedRoute>
               } 
             />
-            <Route path="/contact" element={<Contact />} />
           </Routes>
           <Footer />
         </div>
