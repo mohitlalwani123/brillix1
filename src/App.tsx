@@ -6,10 +6,15 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Questions from './pages/Questions';
-import AskQuestion from './pages/AskQuestion';
-import QuestionDetail from './pages/QuestionDetail';
+import Subjects from './pages/Subjects';
+import SubjectDetail from './pages/SubjectDetail';
+import StudyMaterials from './pages/StudyMaterials';
+import Flashcards from './pages/Flashcards';
+import GamesQuiz from './pages/GamesQuiz';
 import Community from './pages/Community';
+import ParentalControl from './pages/ParentalControl';
+import Contact from './pages/Contact';
+import Faculty from './pages/Faculty';
 import Profile from './pages/Profile';
 import Footer from './components/Footer';
 
@@ -23,17 +28,15 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/questions" element={<Questions />} />
-            <Route path="/questions/:id" element={<QuestionDetail />} />
-            <Route 
-              path="/ask" 
-              element={
-                <ProtectedRoute>
-                  <AskQuestion />
-                </ProtectedRoute>
-              } 
-            />
+            <Route path="/subjects" element={<Subjects />} />
+            <Route path="/subjects/:subject" element={<SubjectDetail />} />
+            <Route path="/study-materials" element={<StudyMaterials />} />
+            <Route path="/flashcards" element={<Flashcards />} />
+            <Route path="/games-quiz" element={<GamesQuiz />} />
             <Route path="/community" element={<Community />} />
+            <Route path="/parental-control" element={<ParentalControl />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/faculty" element={<Faculty />} />
             <Route 
               path="/profile" 
               element={

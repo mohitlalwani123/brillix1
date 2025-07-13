@@ -10,7 +10,6 @@ import {
   Settings,
   BarChart3,
   Bell,
-  Plus,
   Search
 } from 'lucide-react';
 
@@ -23,8 +22,12 @@ const Navbar = () => {
 
   const navItems = [
     { name: 'Home', path: '/' },
-    { name: 'Questions', path: '/questions' },
+    { name: 'Subjects', path: '/subjects' },
+    { name: 'Study Materials', path: '/study-materials' },
+    { name: 'Games & Quiz', path: '/games-quiz' },
     { name: 'Community', path: '/community' },
+    { name: 'Faculty', path: '/faculty' },
+    { name: 'Contact', path: '/contact' },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -46,12 +49,14 @@ const Navbar = () => {
 
   const getRoleColor = (role: string) => {
     switch (role) {
-      case 'developer':
-        return 'bg-blue-500';
       case 'student':
-        return 'bg-green-500';
-      case 'enthusiast':
-        return 'bg-purple-500';
+        return 'bg-learnkins-blue-500';
+      case 'parent':
+        return 'bg-learnkins-green-500';
+      case 'teacher':
+        return 'bg-learnkins-purple-500';
+      case 'admin':
+        return 'bg-learnkins-orange-500';
       default:
         return 'bg-gray-500';
     }
@@ -62,23 +67,13 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="text-2xl font-bold">
-              Stack<span className="text-blue-600">It</span>
-            </div>
+          <Link to="/" className="flex items-center space-x-3">
+            <img 
+              src="/public/Screenshot 2025-07-01 135146.png" 
+              alt="LearnKins Logo" 
+              className="h-10 w-auto"
+            />
           </Link>
-
-          {/* Search Bar - Desktop */}
-          <div className="hidden md:flex flex-1 max-w-lg mx-8">
-            <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search questions..."
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-          </div>
 
           {/* Desktop menu */}
           <div className="hidden lg:flex items-center space-x-6">
@@ -88,8 +83,8 @@ const Navbar = () => {
                 to={item.path}
                 className={`px-3 py-2 text-sm font-medium transition-colors ${
                   isActive(item.path)
-                    ? 'text-blue-600 border-b-2 border-blue-600'
-                    : 'text-gray-700 hover:text-blue-600'
+                    ? 'text-learnkins-blue-600 border-b-2 border-learnkins-blue-600'
+                    : 'text-gray-700 hover:text-learnkins-blue-600'
                 }`}
               >
                 {item.name}
@@ -101,19 +96,10 @@ const Navbar = () => {
           <div className="hidden lg:flex items-center space-x-4">
             {isAuthenticated ? (
               <div className="flex items-center space-x-3">
-                {/* Ask Question Button */}
-                <Link
-                  to="/ask"
-                  className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-lg hover:opacity-90 transition-opacity"
-                >
-                  <Plus className="mr-2 h-4 w-4" />
-                  Ask Question
-                </Link>
-
                 {/* Notifications */}
-                <button className="relative p-2 text-gray-600 hover:text-blue-600 transition-colors">
+                <button className="relative p-2 text-gray-600 hover:text-learnkins-blue-600 transition-colors">
                   <Bell className="h-5 w-5" />
-                  <span className="absolute -top-1 -right-1 h-4 w-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 h-4 w-4 bg-learnkins-orange-500 text-white text-xs rounded-full flex items-center justify-center">
                     3
                   </span>
                 </button>
@@ -167,17 +153,19 @@ const Navbar = () => {
                         onClick={() => setIsUserDropdownOpen(false)}
                       >
                         <BarChart3 className="h-4 w-4 mr-3" />
-                        My Activity
+                        My Progress
                       </Link>
 
-                      <Link
-                        to="/profile"
-                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        onClick={() => setIsUserDropdownOpen(false)}
-                      >
-                        <Settings className="h-4 w-4 mr-3" />
-                        Settings
-                      </Link>
+                      {user?.role === 'parent' && (
+                        <Link
+                          to="/parental-control"
+                          className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          onClick={() => setIsUserDropdownOpen(false)}
+                        >
+                          <Settings className="h-4 w-4 mr-3" />
+                          Parental Controls
+                        </Link>
+                      )}
 
                       <div className="border-t border-gray-200 my-1"></div>
 
@@ -196,13 +184,13 @@ const Navbar = () => {
               <div className="flex items-center space-x-3">
                 <Link
                   to="/login"
-                  className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors"
+                  className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-learnkins-blue-600 transition-colors"
                 >
                   Sign In
                 </Link>
                 <Link
                   to="/register"
-                  className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-medium rounded-lg hover:opacity-90 transition-opacity"
+                  className="px-4 py-2 bg-learnkins-gradient text-white text-sm font-medium rounded-lg hover:opacity-90 transition-opacity"
                 >
                   Get Started
                 </Link>
@@ -219,7 +207,7 @@ const Navbar = () => {
             )}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-700 hover:text-blue-600 focus:outline-none focus:text-blue-600"
+              className="text-gray-700 hover:text-learnkins-blue-600 focus:outline-none focus:text-learnkins-blue-600"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -231,26 +219,14 @@ const Navbar = () => {
       {isOpen && (
         <div className="lg:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-200">
-            {/* Mobile Search */}
-            <div className="px-3 py-2">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Search questions..."
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-            </div>
-
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 to={item.path}
                 className={`block px-3 py-2 text-base font-medium transition-colors ${
                   isActive(item.path)
-                    ? 'text-blue-600 bg-blue-50'
-                    : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+                    ? 'text-learnkins-blue-600 bg-learnkins-blue-50'
+                    : 'text-gray-700 hover:text-learnkins-blue-600 hover:bg-learnkins-blue-50'
                 }`}
                 onClick={() => setIsOpen(false)}
               >
@@ -271,19 +247,21 @@ const Navbar = () => {
                     </div>
                   </div>
                   <Link
-                    to="/ask"
-                    className="block px-3 py-2 text-base font-medium bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg mx-3 text-center"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Ask Question
-                  </Link>
-                  <Link
                     to="/profile"
-                    className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                    className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-learnkins-blue-600 hover:bg-learnkins-blue-50"
                     onClick={() => setIsOpen(false)}
                   >
                     Profile
                   </Link>
+                  {user?.role === 'parent' && (
+                    <Link
+                      to="/parental-control"
+                      className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-learnkins-blue-600 hover:bg-learnkins-blue-50"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Parental Controls
+                    </Link>
+                  )}
                   <button
                     onClick={() => {
                       handleLogout();
@@ -298,14 +276,14 @@ const Navbar = () => {
                 <div className="space-y-2">
                   <Link
                     to="/login"
-                    className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                    className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-learnkins-blue-600 hover:bg-learnkins-blue-50"
                     onClick={() => setIsOpen(false)}
                   >
                     Sign In
                   </Link>
                   <Link
                     to="/register"
-                    className="block px-3 py-2 text-base font-medium bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg mx-3 text-center"
+                    className="block px-3 py-2 text-base font-medium bg-learnkins-gradient text-white rounded-lg mx-3 text-center"
                     onClick={() => setIsOpen(false)}
                   >
                     Get Started
